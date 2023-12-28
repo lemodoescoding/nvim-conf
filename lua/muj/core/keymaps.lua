@@ -24,3 +24,7 @@ keymap.set("n", "<leader>tp", ":tabp<CR>") -- prev
 keymap.set("n", "<leader>ee", ":NvimTreeToggle<CR>")
 keymap.set("n", "<leader>ef", ":NvimTreeFocus<CR>")
 keymap.set("n", "<leader>ex", ":NvimTreeClose<CR>")
+
+
+-- vim-maximizer
+keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
