@@ -20,28 +20,25 @@ return {
       },
     -- change folder arrow icons
       renderer = {
-          icons = {
-            glyphs = {
-              folder = {
-                arrow_closed = "", -- arrow when folder is closed
-                arrow_open = "", -- arrow when folder is open
-              },
-            },
+        full_name = true,
+        group_empty = true,
+        icons = {
+          show = {
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
           },
         },
-      -- disable window_picker for
-      -- explorer to work well with
-      -- window splits
+      },
+
       actions = {
-      open_file = {
+        open_file = {
           window_picker = {
             enable = false,
           },
         },
       },
-      -- 	git = {
-      -- 		ignore = false,
-      -- 	},
     })
   end,
 }
