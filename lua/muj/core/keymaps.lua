@@ -5,7 +5,7 @@ local keymap = vim.keymap
 
 keymap.set("i", "jk", "<ESC>")
 keymap.set("n", "<leader>w", ":w<CR>")
-keymap.set("n", "<leader>qq", ":qa!<CR>")
+keymap.set("n", "<leader>qf", ":qa!<CR>")
 keymap.set("n", "<leader>qw", ":wqa<CR>")
 
 -- window splitting
