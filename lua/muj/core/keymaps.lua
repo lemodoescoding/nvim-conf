@@ -20,11 +20,5 @@ keymap.set("n", "<leader>tx", ":tabclose<CR>") -- close
 keymap.set("n", "<leader>tn", ":tabn<CR>") -- next
 keymap.set("n", "<leader>tp", ":tabp<CR>") -- prev
 
--- nvim-tree
-keymap.set("n", "<leader>ee", ":NvimTreeToggle<CR>")
-keymap.set("n", "<leader>ef", ":NvimTreeFocus<CR>")
-keymap.set("n", "<leader>ex", ":NvimTreeClose<CR>")
-
-
 -- vim-maximizer
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")

@@ -40,5 +40,13 @@ return {
         },
       },
     })
+
+    -- nvim-tree custom keymap
+    local keymap = vim.keymap
+
+    keymap.set("n", "<leader>ee", ":NvimTreeToggle<CR>")
+    keymap.set("n", "<leader>ef", ":NvimTreeFocus<CR>")
+    keymap.set("n", "<leader>ex", ":NvimTreeClose<CR>")
+
   end,
 }
