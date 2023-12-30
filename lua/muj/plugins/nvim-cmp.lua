@@ -9,7 +9,7 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "rafamadriz/friendly-snippets",
   },
-  
+
   config = function()
     local cmp = require("cmp")
 
@@ -21,14 +21,19 @@ return {
     -- load vs-code like snippets from plugins (e.g. friendly-snippets)
     require("luasnip/loaders/from_vscode").lazy_load()
 
-    vim.opt.completeopt = "menu,menuone,noselect"
+    -- vim.opt.completeopt = "menu,menuone,noselect"
 
     cmp.setup({
+      completion = {
+        completeopt = "menu,menuone,preview,noselect",
+      },
+
       snippet = {
         expand = function(args)
           luasnip.lsp_expand(args.body)
         end,
       },
+
       mapping = cmp.mapping.preset.insert({
         ["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
         ["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
@@ -40,7 +45,7 @@ return {
       }),
 
       sources = cmp.config.sources({
-        {name = "nvim_lsp"}, -- lsp
+        {name = "nvim_lsp"},
         {name = "luasnip"}, -- snippets
         {name = "buffer"}, -- text within buffer
         {name = "path"}, -- file system path
