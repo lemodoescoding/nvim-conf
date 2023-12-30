@@ -3,4 +3,5 @@ return {
   "tpope/vim-surround",
   "szw/vim-maximizer",
   "nvim-lua/plenary.nvim",
+  "inkarkat/vim-ReplaceWithRegister",
 }
