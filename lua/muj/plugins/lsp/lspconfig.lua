@@ -82,7 +82,7 @@ return {
       on_attach = on_attach,
     })
 
-    lspconfig["emmet-ls"].setup({
+    lspconfig["emmet_ls"].setup({
       capabilites = capabilities,
       on_attach = on_attach,
       filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
