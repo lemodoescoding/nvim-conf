@@ -4,6 +4,7 @@ local keymap = vim.keymap
 -- basic and important keymaps
 
 keymap.set("i", "jk", "<ESC>")
+keymap.set("n", "<leader>q", ":wqa<CR>")
 keymap.set("n", "<leader>w", ":w<CR>")
 keymap.set("n", "<leader>qf", ":qa!<CR>")
 keymap.set("n", "<leader>qw", ":wqa<CR>")
