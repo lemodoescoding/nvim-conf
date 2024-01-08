@@ -1,60 +1,61 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  event = {
-    "BufReadPre", "BufNewFile",
-  },
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	event = {
+		"BufReadPre",
+		"BufNewFile",
+	},
 
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    "windwp/nvim-ts-autotag",
-    "JoosepAlviste/nvim-ts-context-commentstring",
-  },
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		"windwp/nvim-ts-autotag",
+		"JoosepAlviste/nvim-ts-context-commentstring",
+	},
 
-  config = function()
-    local treesitter = require("nvim-treesitter.configs")
+	config = function()
+		local treesitter = require("nvim-treesitter.configs")
 
-    treesitter.setup({
-      highlight = {
-        enable = true,
-      },
+		treesitter.setup({
+			highlight = {
+				-- enable = true,
+			},
 
-      indent = { enable = true },
+			indent = { enable = true },
 
-      autotag = { enable = true },
+			autotag = { enable = true },
 
-      ensure_installed = {
-        "json",
-        "javascript",
-        "typescript",
-        "tsx",
-        "yaml",
-        "html",
-        "css",
-        "prisma",
-        "markdown",
-        "markdown_inline",
-        "svelte",
-        "graphql",
-        "bash",
-        "lua",
-        "vim",
-        "dockerfile",
-        "gitignore",
-        "query"
-      },
+			ensure_installed = {
+				"json",
+				"javascript",
+				"typescript",
+				"tsx",
+				"yaml",
+				"html",
+				"css",
+				"prisma",
+				"markdown",
+				"markdown_inline",
+				"svelte",
+				"graphql",
+				"bash",
+				"lua",
+				"vim",
+				"dockerfile",
+				"gitignore",
+				"query",
+			},
 
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        }
-      }
-    })
+			incremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<C-space>",
+					node_incremental = "<C-space>",
+					scope_incremental = false,
+					node_decremental = "<bs>",
+				},
+			},
+		})
 
-    require("ts_context_commentstring").setup {}
-  end
+		require("ts_context_commentstring").setup({})
+	end,
 }
