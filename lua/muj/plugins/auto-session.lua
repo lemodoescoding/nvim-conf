@@ -13,5 +13,6 @@ return {
 		keyset("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" })
 		keyset("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" })
 		keyset("n", "<leader>wd", "<cmd>Autosession delete<CR>", { desc = "Select session to delete" })
+		keyset("n", "<leader>we", "<cmd>Autosession search<CR>", { desc = "Select session to restore" })
 	end,
 }
