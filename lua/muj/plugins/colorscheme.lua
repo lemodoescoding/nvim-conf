@@ -36,7 +36,8 @@ return {
 		config = function()
 			local tokyonight = require("tokyonight")
 			tokyonight.setup({
-				style = "night",
+				style = "moon",
+				terminal_colors = true,
 				on_colors = function(colors)
 					colors.bg = customs.bg
 					colors.bg_dark = customs.bg_dark
@@ -53,9 +54,15 @@ return {
 					colors.fg_gutter = customs.fg_gutter
 					colors.fg_sidebar = customs.fg_dark
 				end,
+				styles = {
+					comments = { italic = true },
+					functions = { italic = true },
+					variables = { italic = true },
+				},
 			})
 
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
+	{},
 }
