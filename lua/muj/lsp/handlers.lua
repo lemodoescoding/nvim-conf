@@ -11,7 +11,7 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
 	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 	keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-	keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+	keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
 	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
@@ -34,44 +34,6 @@ return {
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		local on_attach = function(client, bufnr)
-			-- opts.buffer = bufnr
-			--
-			-- opts.desc = "Show LSP references", keymap.set("n", "<leader>gR", "<cmd>Telescope lsp_references<CR>", opts)
-			--
-			-- opts.desc = "Go to declaration", keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts)
-			--
-			-- opts.desc = "Show LSP definition"
-			-- keymap.set("n", "<leader>gd", "<cmd>Telescope lsp_definitions<CR>", opts)
-			--
-			-- opts.desc = "Show LSP implementation"
-			-- keymap.set("n", "<leader>gi", "<cmd>Telescope lsp_implementations<CR>", opts)
-			--
-			-- opts.desc = "Show LSP type definition"
-			-- keymap.set("n", "<leader>gt", "<cmd>Telescope lsp_type_definitions<CR>", opts)
-			--
-			-- opts.desc = "See available code actions"
-			-- keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-			--
-			-- opts.desc = "Smart rename"
-			-- keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-			--
-			-- opts.desc = "Show buffer diagnostics"
-			-- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts)
-			--
-			-- opts.desc = "Show line diagnostics"
-			-- keymap.set("n", "<leader>d", vim.diagnostics.open_float, opts)
-			--
-			-- opts.desc = "Go to Previous diagnostics"
-			-- keymap.set("n", "[d", vim.diagnostics.goto_prev, opts)
-			--
-			-- opts.desc = "Go to Next diagnostics"
-			-- keymap.set("n", "]d", vim.diagnostics.goto_next, opts)
-			--
-			-- opts.desc = "Show documentation"
-			-- keymap.set("n", "K", vim.lsp.buf.hover, opts)
-			--
-			-- opts.desc = "Restart LSP"
-			-- keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
 			if client.name == "tsserver" then
 				client.server_capabilities.documentFormattingProvider = false
 			end
@@ -82,6 +44,8 @@ return {
 
 			lsp_keymaps(bufnr)
 		end
+
+		-- make autocompletion
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -98,6 +62,7 @@ return {
 		for _, sign in ipairs(signs) do
 			vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
 		end
+
 		-- lsp language configuration --
 
 		lspconfig["html"].setup({
@@ -121,8 +86,18 @@ return {
 			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
 		})
 
-		lspconfig["pyright"].setup({
+		lspconfig["bashls"].setup({
 			capabilites = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig["yamlls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig["jsonls"].setup({
+			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
