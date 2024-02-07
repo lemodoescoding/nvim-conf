@@ -1,38 +1,41 @@
-return {
-  "williamboman/mason.nvim",
-  dependencies = {
-    "williamboman/mason-lspconfig.nvim",
-  },
-
-  config = function()
-    local mason = require("mason")
-
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason.setup({
-      ui = {
-        icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗"
-        },
-      },
-    })
-
-    mason_lspconfig.setup({
-      ensure_installed = {
-        "tsserver",
-        "cssls",
-        "html",
-        "lua_ls",
-        "emmet_ls",
-        -- "intelephense",
-        "pyright",
-        "svelte",
-        -- "clangd",
-      },
-
-      automatic_installation = true,
-    })
-  end,
-}
+-- local M = {}
+--
+-- local servers = {
+-- 	"tsserver",
+-- 	"cssls",
+-- 	"html",
+-- 	"lua_ls",
+-- 	"jsonls",
+-- 	"bashls",
+-- 	"svelte",
+-- 	"emmet_ls",
+-- }
+--
+-- local settings = {
+-- 	ui = {
+-- 		icons = {
+-- 			package_installed = "✓",
+-- 			package_pending = "➜",
+-- 			package_uninstalled = "✗",
+-- 		},
+-- 	},
+-- 	log_level = vim.log.levels.INFO,
+-- 	max_concurrent_installers = 4,
+-- }
+--
+-- return {
+-- 	{
+-- 		"williamboman/mason.nvim",
+-- 		dependencies = {
+-- 			"williamboman/mason-lspconfig.nvim",
+-- 		},
+-- 		config = function()
+-- 			require("mason").setup(settings)
+--
+-- 			require("mason-lspconfig").setup({
+-- 				ensure_installed = servers,
+-- 				automatic_installation = true,
+-- 			})
+-- 		end,
+-- 	},
+-- }

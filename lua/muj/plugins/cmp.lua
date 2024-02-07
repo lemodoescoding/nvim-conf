@@ -111,7 +111,7 @@ return {
 					vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
 
 					vim_item.menu = ({
-						nvim_lsp = "[L]",
+						-- nvim_lsp = "[L]",
 						-- nvim_lua = "[L]",
 						luasnip = "[S]",
 						buffer = "[B]",
