@@ -1,5 +1,6 @@
 return {
 	"aurum77/live-server.nvim",
+
 	config = function()
 		local live_server = require("live_server")
 
