@@ -1,41 +1,42 @@
 local servers = {
-	"emmet_ls",
-	"lua_ls",
-	"tsserver",
-	"html",
-	"cssls",
-	"bashls",
-	"jsonls",
-	"yamlls",
-	"svelte",
+  "emmet_ls",
+  "lua_ls",
+  "tsserver",
+  "html",
+  "cssls",
+  "bashls",
+  "jsonls",
+  "yamlls",
+  "svelte",
+  "intelephense",
 }
 
 local settings = {
-	ui = {
-		icons = {
-			package_installed = "✓",
-			package_pending = "➜",
-			package_uninstalled = "✗",
-		},
-	},
-	log_level = vim.log.levels.INFO,
-	max_concurrent_installers = 4,
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
+    },
+  },
+  log_level = vim.log.levels.INFO,
+  max_concurrent_installers = 4,
 }
 
 return {
-	"williamboman/mason.nvim",
-	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
-		"neovim/nvim-lspconfig",
-		"hrsh7th/cmp-nvim-lsp",
-		"onsails/lspkind.nvim",
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-	},
-	config = function()
-		require("mason").setup(settings)
-		require("mason-lspconfig").setup({
-			ensure_installed = servers,
-			automatic_installation = true,
-		})
-	end,
+  "williamboman/mason.nvim",
+  dependencies = {
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+    "hrsh7th/cmp-nvim-lsp",
+    "onsails/lspkind.nvim",
+    { "antosha417/nvim-lsp-file-operations", config = true },
+  },
+  config = function()
+    require("mason").setup(settings)
+    require("mason-lspconfig").setup({
+      ensure_installed = servers,
+      automatic_installation = true,
+    })
+  end,
 }
