@@ -76,7 +76,7 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>ef", "<cmd>:Neotree focus<CR>", {})
-		vim.keymap.set("n", "<leader>ec", "<cmd>:Neotree close<CR>", {})
+		-- vim.keymap.set("n", "<leader>ef", "<cmd>:Neotree focus<CR>", {})
+		-- vim.keymap.set("n", "<leader>ec", "<cmd>:Neotree close<CR>", {})
 	end,
 }

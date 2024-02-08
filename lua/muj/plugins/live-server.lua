@@ -16,7 +16,7 @@ return {
 
 		local keymap = vim.keymap
 
-		keymap.set("n", "<leader>ss", "<cmd>LiveServerStart<CR>")
-		keymap.set("n", "<leader>st", "<cmd>LiveServerStop<CR>")
+		-- keymap.set("n", "<leader>ss", "<cmd>LiveServerStart<CR>")
+		-- keymap.set("n", "<leader>st", "<cmd>LiveServerStop<CR>")
 	end,
 }
