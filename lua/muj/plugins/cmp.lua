@@ -8,6 +8,7 @@ return {
 		"L3MON4D3/Luasnip",
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
+		-- "jcha0713/cmp-tw2css",
 	},
 
 	config = function()
@@ -127,6 +128,7 @@ return {
 				{ name = "luasnip" }, -- snippets
 				{ name = "buffer" }, -- text within buffer
 				{ name = "path" }, -- file system path
+				-- { name = "cmp-tw2css" },
 			}),
 
 			confirm_opts = {
