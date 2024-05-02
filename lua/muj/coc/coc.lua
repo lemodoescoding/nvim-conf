@@ -1,0 +1,63 @@
+return {
+  -- "neoclide/coc.nvim",
+  -- branch = "release",
+  -- config = function()
+  --   local g = vim.g
+  --   vim.opt.backup = false
+  --   vim.opt.writebackup = false
+  --   vim.opt.updatetime = 300
+  --
+  --   g.coc_global_extensions = {
+  --     'coc-clangd',
+  --     'coc-css',
+  --     'coc-cssmodules',
+  --     'coc-diagnostic',
+  --     'coc-docker',
+  --     'coc-emmet',
+  --     'coc-eslint',
+  --     'coc-html',
+  --     'coc-json',
+  --     'coc-lua',
+  --     'coc-phpls',
+  --     'coc-prettier',
+  --     'coc-pyright',
+  --     'coc-react-refactor',
+  --     'coc-sh',
+  --     'coc-snippets',
+  --     'coc-sql',
+  --     'coc-styled-components',
+  --     'coc-svg',
+  --     'coc-tailwindcss',
+  --     'coc-tslint-plugin',
+  --     'coc-tsserver',
+  --     'coc-vetur',
+  --     'coc-vimlsp',
+  --     'coc-webpack',
+  --     'coc-word',
+  --     'coc-xml',
+  --     'coc-yaml',
+  --     'coc-yank',
+  --     'coc-lists',
+  --   }
+  --
+  --   local keyset = vim.keymap.set
+  --
+  --   function _G.check_back_space()
+  --     local col = vim.fn.col(".") - 1
+  --     return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+  --   end
+  --
+  --   local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
+  --   -- keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+  --   -- keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+  --   --
+  --   -- -- Make <CR> to accept selected completion item or notify coc.nvim to format
+  --   -- -- <C-g>u breaks current undo, please make your own choice
+  --   -- keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+  --   --
+  --   -- -- Use <c-j> to trigger snippets
+  --   -- keyset("i", "<c-j>", "<Plug>(coc-snippets-expand-jump)")
+  --   -- -- Use <c-space> to trigger completion
+  --   -- keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
+  -- end,
+}
