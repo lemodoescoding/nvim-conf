@@ -36,6 +36,7 @@ return {
 		config = function()
 			local tokyonight = require("tokyonight")
 			tokyonight.setup({
+				-- transparent = true,
 				style = "moon",
 				terminal_colors = true,
 				on_colors = function(colors)
@@ -61,8 +62,12 @@ return {
 				},
 			})
 
+			vim.g.tokyonight_italic_comments = true
+			vim.g.tokyonight_italic_keywords = true
+			vim.g.tokyonight_italic_functions = true
+			vim.g.tokyonight_italic_variables = true
+
 			vim.cmd([[colorscheme tokyonight]])
 		end,
 	},
-	{},
 }
