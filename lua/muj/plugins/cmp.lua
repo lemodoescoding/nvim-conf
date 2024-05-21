@@ -128,7 +128,6 @@ return {
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within buffer
         { name = "path" }, -- file system path
-        -- { name = "cmp-tw2css" },
       }),
 
       confirm_opts = {

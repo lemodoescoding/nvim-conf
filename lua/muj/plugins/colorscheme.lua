@@ -18,56 +18,76 @@ return {
 	-- 		vim.cmd([[colorscheme nightfly]])
 	-- 	end,
 	-- },
-	-- {
-	-- 	"catppuccin/nvim",
-	-- 	priority = 1001,
-	-- 	config = function()
-	-- 		local catppuccin = require("catppuccin")
-	-- 		catppuccin.setup({
-	-- 			flavour = "mocha",
-	-- 		})
-	--
-	-- 		vim.cmd([[colorscheme catppuccin]])
-	-- 	end,
-	-- },
 	{
-		"folke/tokyonight.nvim",
-		priority = 1000,
+		"catppuccin/nvim",
 		config = function()
-			local tokyonight = require("tokyonight")
-			tokyonight.setup({
-				-- transparent = true,
-				style = "moon",
-				terminal_colors = true,
-				on_colors = function(colors)
-					colors.bg = customs.bg
-					colors.bg_dark = customs.bg_dark
-					colors.bg_float = customs.bg_dark
-					colors.bg_highlight = customs.bg_highlight
-					colors.bg_popup = customs.bg_dark
-					colors.bg_search = customs.bg_search
-					colors.bg_sidebar = customs.bg_dark
-					colors.bg_statusline = customs.bg_dark
-					colors.border = customs.border
-					colors.fg = customs.fg
-					colors.fg_dark = customs.fg_dark
-					colors.fg_float = customs.fg
-					colors.fg_gutter = customs.fg_gutter
-					colors.fg_sidebar = customs.fg_dark
-				end,
+			local catppuccin = require("catppuccin")
+
+			catppuccin.setup({
+				flavour = "mocha",
+				transparent_background = true,
+				term_colors = true,
+
 				styles = {
-					comments = { italic = true },
-					functions = { italic = true },
-					variables = { italic = true },
+					comments = { "italic" },
+					functions = { "italic" },
+					variables = { "italic" },
+				},
+
+				color_overrides = {
+					mocha = {
+						base = customs.bg_dark,
+						mantle = customs.bg_dark,
+						crust = customs.bg_dark,
+					},
+				},
+
+				integrations = {
+					neotree = true,
 				},
 			})
 
-			vim.g.tokyonight_italic_comments = true
-			vim.g.tokyonight_italic_keywords = true
-			vim.g.tokyonight_italic_functions = true
-			vim.g.tokyonight_italic_variables = true
-
-			vim.cmd([[colorscheme tokyonight]])
+			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		local tokyonight = require("tokyonight")
+	-- 		tokyonight.setup({
+	-- 			-- transparent = true,
+	-- 			style = "moon",
+	-- 			terminal_colors = true,
+	-- 			on_colors = function(colors)
+	-- 				colors.bg = customs.bg
+	-- 				colors.bg_dark = customs.bg_dark
+	-- 				colors.bg_float = customs.bg_dark
+	-- 				colors.bg_highlight = customs.bg_highlight
+	-- 				colors.bg_popup = customs.bg_dark
+	-- 				colors.bg_search = customs.bg_search
+	-- 				colors.bg_sidebar = customs.bg_dark
+	-- 				colors.bg_statusline = customs.bg_dark
+	-- 				colors.border = customs.border
+	-- 				colors.fg = customs.fg
+	-- 				colors.fg_dark = customs.fg_dark
+	-- 				colors.fg_float = customs.fg
+	-- 				colors.fg_gutter = customs.fg_gutter
+	-- 				colors.fg_sidebar = customs.fg_dark
+	-- 			end,
+	-- 			styles = {
+	-- 				-- comments = { italic = true },
+	-- 				-- functions = { italic = true },
+	-- 				-- variables = { italic = true },
+	-- 			},
+	-- 		})
+	--
+	-- 		vim.g.tokyonight_italic_comments = true
+	-- 		vim.g.tokyonight_italic_keywords = true
+	-- 		vim.g.tokyonight_italic_functions = true
+	-- 		vim.g.tokyonight_italic_variables = true
+	--
+	-- 		vim.cmd([[colorscheme tokyonight]])
+	-- 	end,
+	-- },
 }
