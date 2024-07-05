@@ -11,7 +11,7 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
 	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 	keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-	keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+	-- keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
 	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
@@ -34,13 +34,8 @@ return {
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		local on_attach = function(client, bufnr)
-			if client.name == "tsserver" then
-				client.server_capabilities.documentFormattingProvider = false
-			end
-
-			if client.name == "sumneko_lua" then
-				client.server_capabilities.documentFormattingProvider = false
-			end
+			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentFormattingProvider = false
 
 			lsp_keymaps(bufnr)
 		end
@@ -48,7 +43,24 @@ return {
 		-- make autocompletion
 
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		capabilities.textDocument.completion.completionItem = {
+			documentationFormat = { "markdown", "plaintext" },
+			snippetSupport = true,
+			preselectSupport = true,
+			insertReplaceSupport = true,
+			labelDetailsSupport = true,
+			deprecatedSupport = true,
+			commitCharactersSupport = true,
+			tagSupport = { valueSet = { 1 } },
+			resolveSupport = {
+				properties = {
+					"documentation",
+					"detail",
+					"additionalTextEdits",
+				},
+			},
+		}
+
 		capabilities = cmp_nvim_lsp.default_capabilities()
 
 		local signs = {

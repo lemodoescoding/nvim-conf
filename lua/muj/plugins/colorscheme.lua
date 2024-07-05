@@ -32,6 +32,8 @@ return {
 					comments = { "italic" },
 					functions = { "italic" },
 					variables = { "italic" },
+					boolean = { "italic" },
+					keywords = { "italic" },
 				},
 
 				color_overrides = {
@@ -44,6 +46,8 @@ return {
 
 				integrations = {
 					neotree = true,
+					cmp = true,
+					treesitter = true,
 				},
 			})
 
