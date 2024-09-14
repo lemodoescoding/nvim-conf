@@ -1,7 +1,7 @@
 local servers = {
   "emmet_ls",
   "lua_ls",
-  "tsserver",
+  "ts_ls",
   "html",
   "cssls",
   "bashls",
