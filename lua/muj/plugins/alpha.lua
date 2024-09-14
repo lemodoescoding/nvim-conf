@@ -41,7 +41,6 @@ return {
 
 		startify.section.footer.val = {
 			{ type = "text", val = "github.com/lemodoescoding" },
-			{ type = "text", val = "x.com/CodingLemo" },
 		}
 
 		-- Send config to alpha

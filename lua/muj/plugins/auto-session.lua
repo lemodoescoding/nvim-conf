@@ -2,7 +2,7 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 return {
 	"rmagatti/auto-session",
-	config = function()
+  	config = function()
 		require("auto-session").setup({
 			log_level = "info",
 
