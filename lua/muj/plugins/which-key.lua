@@ -1,4 +1,6 @@
 vim.g.mapleader = " " -- set vim's mapleader key to <Space>
+vim.o.timeout = true
+vim.o.timeoutlen = 100 -- set timeoutlen to reduce delay
 
 -- TODO: update this which-key configuration to v3
 -- -Tree
@@ -16,7 +18,7 @@ return {
 		win = {
 			no_overlap = true,
 			padding = { 1, 2 },
-			title = true,
+			title = " Keymaps ",
 			title_pos = "center",
 			border = "rounded",
 		},
@@ -26,72 +28,20 @@ return {
 			spacing = 3,
 		},
 
+		-- change from popup_mapping to keys due to new v3 config standard
 		keys = {
 			scroll_down = "<C-d>",
 			scroll_up = "<C-u>",
 		},
 
-		-- show_help = true,
-		-- plugins = {
-		-- 	marks = true,
-		-- 	registers = true,
-		-- 	spelling = {
-		-- 		enabled = true,
-		-- 		suggestions = 20,
-		-- 	},
+		icons = {
+			breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
+			separator = "➜", -- symbol used between a key and it's label
+			group = "+", -- symbol prepended to a group
+		},
 		--
-		-- 	presets = {
-		-- 		operators = false,
-		-- 		motions = true,
-		-- 		text_objects = true,
-		-- 		windows = true,
-		-- 		nav = true,
-		-- 		z = true,
-		-- 		g = true,
-		-- 	},
-		-- },
-		--
-		-- icons = {
-		-- 	breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
-		-- 	separator = "➜", -- symbol used between a key and it's label
-		-- 	group = "+", -- symbol prepended to a group
-		-- },
-		--
-		-- -- sorting keymap based on alpha-numerical order -- added from v3 config example on github
-		-- sort = { "alphanum" },
-		--
-		-- -- change from popup_mapping to keys due to new v3 config standard
-		-- keys = {
-		-- 	scroll_down = "<c-j>", -- binding to scroll down inside the popup
-		-- 	scroll_up = "<c-k>", -- binding to scroll up inside the popup
-		-- },
-		--
-		-- -- change these settings to newer v3 config
-		-- win = {
-		-- 	title_pos = "center",
-		-- 	width = 1,
-		-- 	height = { min = 4, max = 25 },
-		-- 	border = "rounded",
-		-- 	padding = { 2, 2 },
-		-- },
-		--
-		-- -- layout of the popup
-		-- layout = {
-		-- 	height = { min = 4, max = 25 }, -- min and max height of the
-		-- 	width = { min = 20, max = 50 },
-		-- 	spacing = 3,
-		-- 	align = "left",
-		-- },
-		--
-		-- show_keys = true, -- show the currently pressed key
-		-- show_help = true,
-
-		-- removed triggers_backlist, hidden, ignore_options opts
-		-- modify triggers option based on the new v3 standard
-		-- triggers = {
-		-- 	{ "<auto>", mode = "nxso" },
-		-- 	{ "<leader>", mode = { "n", "v" } },
-		-- },
+		-- sorting keymap based on alpha-numerical order -- added from v3 config example on github
+		sort = { "alphanum" },
 	},
 
 	keys = {
@@ -125,5 +75,22 @@ return {
 		{ "<leader>we", "<cmd>Autosession search<CR>", desc = "Search Sessions" },
 		{ "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save Current Session" },
 		{ "<leader>wr", "<cmd>SessionRestore<CR>", desc = "Restore Session On CWD" },
+
+		-- Common purpose shortcut
+		{ "<leader>qq", "<cmd>:wqa<CR>", desc = "Quit all and save current buffer" },
+		{ "<leader>qf", "<cmd>:qa!<CR>", desc = "Quit all and don't save" },
+		{ "<leader>qw", "<cmd>:qw<CR>", desc = "Quit and save current buffer" },
+		{ "<leader>wb", "<cmd>:w<CR>", desc = "Save current buffer" },
+
+		{ "<leader>to", ":tabnew<CR>", desc = "Open new tab" }, -- new
+		{ "<leader>tx", ":tabclose<CR>", desc = "Close current tab" }, -- close
+		{ "<leader>tn", ":tabn<CR>", desc = "Switch to next tab" }, -- next
+		{ "<leader>tp", ":tabp<CR>", desc = "Switch t previous tab" }, -- prev
+
+		{ "<leader>sv", "<C-w>v", desc = "Split current buffer vertically" }, -- vertical
+		{ "<leader>sh", "<C-w>s", desc = "Split current buffer horizontally" }, -- horizontal
+		{ "<leader>se", "<C-w>=", desc = "Split current buffer into equally size" }, -- split equally
+		{ "<leader>sx", "<cmd>:close<CR>", desc = "Close current splitted buffer" }, -- close current split
+		{ "<leader>sm", "<cmd>:MaximizerToggle<CR>", desc = "Maximize and toggle current selected split" },
 	},
 }
