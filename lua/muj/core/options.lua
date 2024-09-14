@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+opt.cmdheight = 0
+
 -- line numbers
 opt.relativenumber = true
 opt.number = true
