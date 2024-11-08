@@ -22,6 +22,7 @@ return {
 				"lua",
 				"markdown",
 				"php",
+				"prisma",
 				"sql",
 				"tsx",
 				"typescript",

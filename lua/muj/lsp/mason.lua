@@ -11,7 +11,8 @@ local servers = {
 	-- "tailwindcss-language-server",
 	-- "intelephense",
 	"clangd",
-	"prisma-language-server",
+	"prismals",
+	"pyright",
 }
 
 local settings = {

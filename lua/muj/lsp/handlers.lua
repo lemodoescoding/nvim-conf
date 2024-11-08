@@ -176,5 +176,13 @@ return {
 				})
 			end,
 		})
+
+		lspconfig["pyright"].setup({
+			capabilities = capabilities,
+		})
+
+		lspconfig["sqlls"].setup({
+			capabilities = capabilities,
+		})
 	end,
 }

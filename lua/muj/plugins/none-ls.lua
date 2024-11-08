@@ -10,14 +10,23 @@ return {
 
 		null_ls.setup({
 			sources = {
-				-- require("none-ls.diagnostics.eslint"),
+				require("none-ls.diagnostics.eslint"),
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettierd,
-        null_ls.builtins.formatting.clang_format.with({
-          extra_args = {
-            "-style=LLVM" -- changes the formatting style to LLVM (there is still many other)
-          }
-        }),
+				null_ls.builtins.formatting.prettierd.with({
+					extra_args = {
+						"--single-quote=true",
+						"--arrow-parens avoid",
+					},
+				}),
+				null_ls.builtins.formatting.clang_format.with({
+					extra_args = {
+						"-style=LLVM", -- changes the formatting style to LLVM (there is still many other)
+					},
+				}),
+				null_ls.builtins.formatting.black.with({
+					extra_args = { "--line-length=125" },
+				}),
+				null_ls.builtins.formatting.isort,
 				-- null_ls.builtins.formatting.phpcsfixer,
 				-- null_ls.builtins.formattin.phpcb,
 				-- null_ls.builtins.diagnostics.eslint_d,
