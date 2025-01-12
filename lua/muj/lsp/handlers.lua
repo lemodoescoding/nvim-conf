@@ -110,6 +110,11 @@ return {
 			on_attach = on_attach,
 		})
 
+		lspconfig["intelephense"].setup({
+			capabilites = capabilities,
+			on_attach = on_attach,
+		})
+
 		lspconfig["emmet_ls"].setup({
 			capabilites = capabilities,
 			on_attach = on_attach,

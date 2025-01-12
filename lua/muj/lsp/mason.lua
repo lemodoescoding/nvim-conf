@@ -9,7 +9,7 @@ local servers = {
 	"yamlls",
 	"svelte",
 	-- "tailwindcss-language-server",
-	-- "intelephense",
+	"intelephense",
 	"clangd",
 	"prismals",
 	"pyright",
