@@ -21,12 +21,14 @@ return {
 				null_ls.builtins.formatting.clang_format.with({
 					extra_args = {
 						"-style=LLVM", -- changes the formatting style to LLVM (there is still many other)
+						-- '"{UseTab: Always, IndentWith: 4, TabWidth: 4}"',
 					},
 				}),
 				null_ls.builtins.formatting.black.with({
 					extra_args = { "--line-length=125" },
 				}),
 				null_ls.builtins.formatting.isort,
+				null_ls.builtins.formatting.jq,
 				-- null_ls.builtins.formatting.phpcsfixer,
 				-- null_ls.builtins.formattin.phpcb,
 				-- null_ls.builtins.diagnostics.eslint_d,

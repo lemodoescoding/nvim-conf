@@ -1,0 +1,28 @@
+{
+  "name": "friendly-snippets",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": [
+          "c",
+          "cpp",
+          "c++"
+        ],
+        "path": "./c.json"
+      },
+      {
+        "language": [
+          "html",
+          "php",
+          "htmx",
+          "tsx",
+          "jsx"
+        ],
+        "path": "./html.json"
+      }
+    ]
+  }
+}

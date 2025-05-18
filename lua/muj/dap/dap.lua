@@ -1,15 +1,23 @@
 local js_based_langs = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
 return {
-	{ "nvim-neotest/nvim-nio" },
 	{
-		"mxsdev/nvim-dap-vscode-js",
+		"microsoft/vscode-js-debug",
+		version = "1.*",
+		build = "npm install --legacy-peer-deps && npm run compile",
+	},
+	{
+		"theHamsta/nvim-dap-virtual-text",
 		config = function()
-			local node_path = os.getenv("HOME") .. "/.nvm/versions/node/v22.4.1/bin/node"
-
+			require("nvim-dap-virtual-text").setup()
+		end,
+	},
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
 			local dap = require("dap")
+
 			local adapters = {
 				"node",
-				"chrome",
 				"pwa-node",
 				"pwa-chrome",
 				"pwa-msedge",
@@ -17,59 +25,38 @@ return {
 				"pwa-extensionHost",
 			}
 
-			-- require("dap-vscode-js").setup({
-			-- 	debugger_path = ,
-			-- 	adapters = adapters,
-			-- })
-
 			for _, type in ipairs(adapters) do
 				local host = "::1"
+				-- local port = 8123
 				dap.adapters[type] = {
 					type = "server",
 					host = host,
 					port = "${port}",
 					executable = {
-						command = "js-debug-adapter",
-						args = { "${port}" },
+						command = "node",
+						-- 💀 Make sure to update this path to point to your installation
+						args = {
+							-- download the fucking dap from microsoft/vscode-js-debug directly
+							-- choose the version 1.77++ and extract the tar file and place it anywhere on the system
+							-- and include the /path/to/js-debug/src/dapDebugServer.js
+							"/home/dfyta9/dap/js-debug/src/dapDebugServer.js",
+							"${port}",
+						},
 					},
 				}
 			end
-
-			dap.adapters["pwa-node"] = {
-				type = "server",
-				host = "::1",
-				port = "${port}",
-				executable = {
-					command = "js-debug-adapter",
-					args = { "~/js-debug-dap-v1.93.0/js-debug/src/dapDebugServer.js", "${port}" },
-				},
-			}
-		end,
-	},
-	{
-		"mfussenegger/nvim-dap",
-		dependencies = {
-			{
-				"microsoft/vscode-js-debug",
-				build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
-			},
-		},
-		config = function()
-			local dap = require("dap")
 
 			for _, language in ipairs(js_based_langs) do
 				dap.configurations[language] = {
 					{
 						type = "pwa-node",
 						request = "launch",
-						name = "Launch current file using pwa-node",
-						program = "${file}",
-						cwd = "${workspaceFolder}",
-						-- sourceMaps = true,
-						-- runtimeExecutable = "node",
-						-- stopOnEntry = true,
-						-- protocol = "inspector",
-						-- console = "integratedTerminal",
+						name = "Launch JS file",
+						cwd = vim.fn.getcwd(),
+						runtimeExecutable = "node",
+						args = { "${file}" },
+						console = "integratedTerminal", -- or "externalTerminal"
+						outputCapture = "std",
 					},
 					{
 						type = "pwa-node",
@@ -77,7 +64,6 @@ return {
 						name = "Attach pwa-node",
 						processId = require("dap.utils").pick_process,
 						cwd = "${workspaceFolder}",
-						port = "${port}",
 						-- sourceMaps = true,
 					},
 					{
@@ -110,6 +96,22 @@ return {
 					},
 				}
 			end
+
+			-- basic config on dap-debugger keymaps
+			vim.keymap.set("n", "<F2>", require("dap").continue)
+			vim.keymap.set("n", "<F3>", require("dap").step_over)
+			vim.keymap.set("n", "<F4>", require("dap").step_into)
+			vim.keymap.set("n", "<F5>", require("dap").step_out)
+			vim.keymap.set("n", "<leader>b", require("dap").toggle_breakpoint)
+			vim.keymap.set("n", "<leader>B", function()
+				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+			end)
+
+			vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapBreakpointCondition", { text = "🟧", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapLogPoint", { text = "🟩", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapStopped", { text = "🈁", texthl = "", linehl = "", numhl = "" })
+			vim.fn.sign_define("DapBreakpointRejected", { text = "⬜", texthl = "", linehl = "", numhl = "" })
 		end,
 		keys = {
 			{
@@ -143,14 +145,5 @@ return {
 				desc = "Run with Args",
 			},
 		},
-		-- -- basic config on dap-debugger keymaps
-		-- vim.keymap.set("n", "<F5>", require("dap").continue)
-		-- vim.keymap.set("n", "<F10>", require("dap").step_over)
-		-- vim.keymap.set("n", "<F11>", require("dap").step_into)
-		-- vim.keymap.set("n", "<F12>", require("dap").step_out)
-		-- vim.keymap.set("n", "<leader>b", require("dap").toggle_breakpoint)
-		-- vim.keymap.set("n", "<leader>B", function()
-		-- 	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-		-- end)
 	},
 }
