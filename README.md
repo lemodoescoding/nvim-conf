@@ -5,7 +5,7 @@ Currently i have implemented a few things:
 - DAP (Debug Adapter Protocol) for JS/TS and C
 
 You must install the dap debug server separately for now, i'm not automate the process and you have
-to tweak a bit in the configuration files especially in `lua/muj/dap/dap.lua` and 'lua/muj/dap/lang/'.
+to tweak a bit in the configuration files especially in `lua/muj/dap/dap.lua` and `lua/muj/dap/lang/`.
 You can however implement your own config for the DAP and maybe add more DAP server for other languages.
 
 - LSP (Language Server Protocol) this one is automated using `Mason`
