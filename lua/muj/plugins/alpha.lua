@@ -7,30 +7,18 @@ return {
 		local startify = require("alpha.themes.startify")
 
 		startify.section.header.val = {
-			[[                                   __                ]],
-			[[      ___     ___    ___   __  __ /\_\    ___ ___    ]],
-			[[     / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-			[[    /\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-			[[    \ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-			[[     \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+			[[                               __                ]],
+			[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+			[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+			[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+			[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+			[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
 		}
 
-		-- startify.section.header.val = {
-		--   [[ __       __                            __                    ]],
-		--   [[|  \     /  \                          |  \                   ]],
-		--   [[| ▓▓\   /  ▓▓__    __       __     ____| ▓▓ ______  __     __ ]],
-		--   [[| ▓▓▓\ /  ▓▓▓  \  |  \     |  \   /      ▓▓/      \|  \   /  \]],
-		--   [[| ▓▓▓▓\  ▓▓▓▓ ▓▓  | ▓▓      \▓▓  |  ▓▓▓▓▓▓▓  ▓▓▓▓▓▓\\▓▓\ /  ▓▓]],
-		--   [[| ▓▓\▓▓ ▓▓ ▓▓ ▓▓  | ▓▓     |  \  | ▓▓  | ▓▓ ▓▓    ▓▓ \▓▓\  ▓▓ ]],
-		--   [[| ▓▓ \▓▓▓| ▓▓ ▓▓__/ ▓▓     | ▓▓__| ▓▓__| ▓▓ ▓▓▓▓▓▓▓▓  \▓▓ ▓▓  ]],
-		--   [[| ▓▓  \▓ | ▓▓\▓▓    ▓▓     | ▓▓  \\▓▓    ▓▓\▓▓     \   \▓▓▓   ]],
-		--   [[ \▓▓      \▓▓ \▓▓▓▓▓▓ __   | ▓▓\▓▓ \▓▓▓▓▓▓▓ \▓▓▓▓▓▓▓    \▓    ]],
-		--   [[                     |  \__/ ▓▓                               ]],
-		--   [[                      \▓▓    ▓▓                               ]],
-		--   [[                       \▓▓▓▓▓▓                                ]],
-		-- }
+		startify.section.header.opts = { position = "center" }
 
 		startify.section.top_buttons.val = {
+			{ type = "padding", val = 2 },
 			startify.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 			startify.button("f", "󰱼  Find File", "<cmd>Telescope find_files<CR>"),
 			startify.button("r", "󰁯  Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
@@ -40,17 +28,13 @@ return {
 		startify.section.bottom_buttons.val = {}
 
 		startify.section.footer.val = {
-			{ type = "text", val = "github.com/lemodoescoding" },
+			{ type = "padding", val = 3 },
+			{ type = "text", val = "github.com/lemodoescoding", opts = { position = "center" } },
+			{ type = "text", val = tostring(vim.version()), opts = { position = "center" } },
 		}
 
-		-- Send config to alpha
 		alpha.setup(startify.config)
 
-		-- Disable folding on alpha buffer
 		vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
-
-		-- Disable tabline on the alpha menu screen
-		-- vim.cmd([[autocmd User AlphaReady set showtabline=0]])
-		-- vim.cmd([[autocmd BufUnload <buffer> set showtabline=2]])
 	end,
 }
