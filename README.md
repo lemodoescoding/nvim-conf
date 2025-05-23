@@ -46,4 +46,4 @@ When you leave the neovim for a while and come back in the same directory you ca
 and don't have to open each file. From the main title screen you can press `r` to retrieve the last session.
 Or if you want to select which session you want to use, just hit `<space>w` and it will open up keymaps you can choose.
 
-#### Future Update: I will post all the keymaps i have defined in my config here. And for information, the leader key is <SPACE>
+#### Future Update: I will post all the keymaps i have defined in my config here. And for information, the leader key is `<SPACE>`
