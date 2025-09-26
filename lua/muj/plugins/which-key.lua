@@ -74,7 +74,7 @@ return {
 		{ "<leader>wd", "<cmd>Autosession delete<CR>", desc = "Delete Selected Session" },
 		{ "<leader>we", "<cmd>Autosession search<CR>", desc = "Search Sessions" },
 		{ "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save Current Session" },
-		{ "<leader>wr", "<cmd>SessionRestore<CR>", desc = "Restore Session On CWD" },
+		{ "<leader>wr", "<cmd>Autosession restore<CR>", desc = "Restore Session On CWD" },
 
 		-- Common purpose shortcut
 		{ "<leader>qq", "<cmd>:wqa<CR>", desc = "Quit all and save current buffer" },
@@ -92,5 +92,8 @@ return {
 		{ "<leader>se", "<C-w>=", desc = "Split current buffer into equally size" }, -- split equally
 		{ "<leader>sx", "<cmd>:close<CR>", desc = "Close current splitted buffer" }, -- close current split
 		{ "<leader>sm", "<cmd>:MaximizerToggle<CR>", desc = "Maximize and toggle current selected split" },
+
+		{ "<leader>tb", ":split term://zsh<CR>", desc = "Open up a terminal (ZSH) on horizontal split" },
+		{ "<leader>tv", ":vsplit term://zsh<CR>", desc = "Open up a terminal (ZSH) on vertical split" },
 	},
 }

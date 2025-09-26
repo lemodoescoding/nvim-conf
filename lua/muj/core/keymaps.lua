@@ -23,3 +23,13 @@ keymap.set("n", "<leader>tp", ":tabp<CR>") -- prev
 
 -- vim-maximizer
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
+
+-- open h-v terminal
+keymap.set("n", "<leader>tb", ":split term://zsh<CR>")
+keymap.set("n", "<leader>tv", ":vsplit term://zsh<CR>")
+
+-- window cursor switcher
+keymap.set("n", "<C-Left>", "<C-w>>")
+keymap.set("n", "<C-Right>", "<C-w><")
+keymap.set("n", "<C-Up>", "<C-w>+")
+keymap.set("n", "<C-Down>", "<C-w>-")

@@ -12,8 +12,8 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 	keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
 	-- keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
-	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
+	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next = {buffer=0}<cr>", opts)
+	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev = {buffer=0}<cr>", opts)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -29,7 +29,10 @@ return {
 	},
 
 	config = function()
-		local lspconfig = require("lspconfig")
+		local lspconfig = vim.lsp.config
+
+		-- The `require('lspconfig')` "framework" is deprecated, use vim.lsp.config (see :help lspconfig-nvim-0.11) instead.
+		-- Feature will be removed in nvim-lspconfig v3.0.0
 
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -77,49 +80,49 @@ return {
 
 		-- lsp language configuration --
 
-		lspconfig["clangd"].setup({
+		lspconfig.clangd.setup = {
 			on_attach = function(client, bufnr)
 				client.server_capabilities.signatureHelpProvider = false
 				on_attach(client, bufnr)
 			end,
 
 			capabilities = capabilities,
-		})
+		}
 
-		lspconfig["prismals"].setup({
+		lspconfig.prismals.setup = {
 			on_attach = function(client, bufnr)
 				client.server_capabilities.signatureHelpProvider = false
 				on_attach(client, bufnr)
 			end,
 
 			capabilities = capabilities,
-		})
+		}
 
-		lspconfig["html"].setup({
-			capabilites = capabilities,
+		lspconfig.html.setup = {
+			capabilities = capabilities,
 			on_attach = on_attach,
-		})
+		}
 
-		lspconfig["ts_ls"].setup({
-			capabilites = capabilities,
+		lspconfig.ts_ls.setup = {
+			capabilities = capabilities,
 			on_attach = on_attach,
-		})
+		}
 
-		lspconfig["cssls"].setup({
-			capabilites = capabilities,
+		lspconfig.cssls.setup = {
+			capabilities = capabilities,
 			on_attach = on_attach,
-		})
+		}
 
-		lspconfig["intelephense"].setup({
-			capabilites = capabilities,
+		lspconfig.intelephense.setup = {
+			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
-		})
+		}
 
-		lspconfig["emmet_ls"].setup({
-			capabilites = capabilities,
+		lspconfig.emmet_ls.setup = {
+			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = {
 				"html",
@@ -132,24 +135,24 @@ return {
 				"less",
 				"svelte",
 			},
-		})
+		}
 
-		lspconfig["bashls"].setup({
-			capabilites = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["yamlls"].setup({
+		lspconfig.bashls.setup = {
 			capabilities = capabilities,
 			on_attach = on_attach,
-		})
+		}
 
-		lspconfig["jsonls"].setup({
+		lspconfig.yamlls.setup = {
 			capabilities = capabilities,
 			on_attach = on_attach,
-		})
+		}
 
-		lspconfig["lua_ls"].setup({
+		lspconfig.jsonls.setup = {
+			capabilities = capabilities,
+			on_attach = on_attach,
+		}
+
+		lspconfig.lua_ls.setup = {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -167,9 +170,9 @@ return {
 					},
 				},
 			},
-		})
+		}
 
-		lspconfig["svelte"].setup({
+		lspconfig.svelte.setup = {
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				on_attach(client, bufnr)
@@ -183,14 +186,14 @@ return {
 					end,
 				})
 			end,
-		})
+		}
 
-		lspconfig["pyright"].setup({
+		lspconfig.pyright.setup = {
 			capabilities = capabilities,
-		})
+		}
 
-		lspconfig["sqlls"].setup({
+		lspconfig.sqlls.setup = {
 			capabilities = capabilities,
-		})
+		}
 	end,
 }

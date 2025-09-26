@@ -1,10 +1,11 @@
 return {
 	"nvimtools/none-ls.nvim",
-	dependencies = { "nvimtools/none-ls-extras.nvim" },
+	dependencies = { "nvimtools/none-ls-extras.nvim", "MunifTanjim/prettier.nvim" },
 	config = function()
 		local null_ls = require("null-ls")
 
 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+		local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
 		local event = "BufWritePre"
 		local async = event == "BufWritePost"
 
@@ -13,14 +14,11 @@ return {
 				require("none-ls.diagnostics.eslint"),
 				null_ls.builtins.formatting.stylua,
 				null_ls.builtins.formatting.prettierd.with({
-					extra_args = {
-						"--single-quote=true",
-						"--arrow-parens avoid",
-					},
+					extra_args = { "--arrow-parens", "avoid" },
 				}),
 				null_ls.builtins.formatting.clang_format.with({
 					extra_args = {
-						"-style=LLVM", -- changes the formatting style to LLVM (there is still many other)
+						"-style={BasedOnStyle: LLVM, SortIncludes: false}", -- changes the formatting style to LLVM (there is still many other)
 						-- '"{UseTab: Always, IndentWith: 4, TabWidth: 4}"',
 					},
 				}),

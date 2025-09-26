@@ -21,7 +21,7 @@ return {
 			{ type = "padding", val = 2 },
 			startify.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 			startify.button("f", "󰱼  Find File", "<cmd>Telescope find_files<CR>"),
-			startify.button("r", "󰁯  Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
+			startify.button("r", "󰁯  Restore Session For Current Directory", "<cmd>Autosession restore<CR>"),
 			startify.button("q", "  Quit NVIM", "<cmd>qa<CR>"),
 		}
 
