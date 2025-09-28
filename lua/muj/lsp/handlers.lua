@@ -29,10 +29,10 @@ return {
 	},
 
 	config = function()
-		local lspconfig = vim.lsp.config
+		local lspconfig = require("lspconfig")
 
-		-- The `require('lspconfig')` "framework" is deprecated, use vim.lsp.config (see :help lspconfig-nvim-0.11) instead.
-		-- Feature will be removed in nvim-lspconfig v3.0.0
+		-- reverting this back for now, near future i will update the handlers config and change to the new vim.lsp.config
+		-- and vim.lsp.enable
 
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -80,48 +80,48 @@ return {
 
 		-- lsp language configuration --
 
-		lspconfig.clangd.setup = {
+		lspconfig["clangd"].setup({
 			on_attach = function(client, bufnr)
 				client.server_capabilities.signatureHelpProvider = false
 				on_attach(client, bufnr)
 			end,
 
 			capabilities = capabilities,
-		}
+		})
 
-		lspconfig.prismals.setup = {
+		lspconfig["prismals"].setup({
 			on_attach = function(client, bufnr)
 				client.server_capabilities.signatureHelpProvider = false
 				on_attach(client, bufnr)
 			end,
 
 			capabilities = capabilities,
-		}
+		})
 
-		lspconfig.html.setup = {
+		lspconfig["html"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.ts_ls.setup = {
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.cssls.setup = {
+		lspconfig["cssls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.intelephense.setup = {
+		lspconfig["intelephense"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = function()
 				return vim.loop.cwd()
 			end,
-		}
+		})
 
-		lspconfig.emmet_ls.setup = {
+		lspconfig["emmet_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = {
@@ -135,24 +135,24 @@ return {
 				"less",
 				"svelte",
 			},
-		}
+		})
 
-		lspconfig.bashls.setup = {
+		lspconfig["bashls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.yamlls.setup = {
+		lspconfig["yamlls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.jsonls.setup = {
+		lspconfig["jsonls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		}
+		})
 
-		lspconfig.lua_ls.setup = {
+		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -170,9 +170,9 @@ return {
 					},
 				},
 			},
-		}
+		})
 
-		lspconfig.svelte.setup = {
+		lspconfig["svelte"].setup({
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				on_attach(client, bufnr)
@@ -186,14 +186,14 @@ return {
 					end,
 				})
 			end,
-		}
+		})
 
-		lspconfig.pyright.setup = {
+		lspconfig["pyright"].setup({
 			capabilities = capabilities,
-		}
+		})
 
-		lspconfig.sqlls.setup = {
+		lspconfig["sqlls"].setup({
 			capabilities = capabilities,
-		}
+		})
 	end,
 }
