@@ -31,6 +31,7 @@ return {
 			{ type = "padding", val = 3 },
 			{ type = "text", val = "github.com/lemodoescoding", opts = { position = "center" } },
 			{ type = "text", val = "NVIM v" .. tostring(vim.version()), opts = { position = "center" } },
+			{ type = "text", val = "Soon ...", opts = { position = "center" } },
 		}
 
 		alpha.setup(startify.config)

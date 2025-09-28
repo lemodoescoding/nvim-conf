@@ -9,6 +9,7 @@ return {
 	"folke/which-key.nvim",
 	dependencies = {
 		"echasnovski/mini.nvim",
+		"moll/vim-bbye",
 	},
 	event = "VeryLazy",
 	opts = {
@@ -82,17 +83,28 @@ return {
 		{ "<leader>qw", "<cmd>:qw<CR>", desc = "Quit and save current buffer" },
 		{ "<leader>wb", "<cmd>:w<CR>", desc = "Save current buffer" },
 
+		-- tab (scope.nvim and bufferline)
 		{ "<leader>to", ":tabnew<CR>", desc = "Open new tab" }, -- new
 		{ "<leader>tx", ":tabclose<CR>", desc = "Close current tab" }, -- close
-		{ "<leader>tn", ":tabn<CR>", desc = "Switch to next tab" }, -- next
-		{ "<leader>tp", ":tabp<CR>", desc = "Switch t previous tab" }, -- prev
+		{ "<leader>tn", ":tabnext<CR>", desc = "Switch to next tab" }, -- next
+		{ "<leader>tp", ":tabprevious<CR>", desc = "Switch t previous tab" }, -- prev
 
+		-- buffer
+		{ "<leader>bn", ":bnext<CR>", desc = "Prev Buffer" },
+		{ "<leader>bp", ":bprev<CR>", desc = "Next Buffer" },
+		{ "<leader>bd", ":Bdelete! %<CR>", desc = "Close Buffer" },
+		{ "<leader>bf", ":bfirst<CR>", desc = "Switch to first Buffer" },
+		{ "<leader>bl", ":blast<CR>", desc = "Switch to most-end Buffer" },
+		{ "<leader>bw", ":Bwipeout<CR>", desc = "Close all buffers" },
+
+		-- Splitting Buffer
 		{ "<leader>sv", "<C-w>v", desc = "Split current buffer vertically" }, -- vertical
 		{ "<leader>sh", "<C-w>s", desc = "Split current buffer horizontally" }, -- horizontal
 		{ "<leader>se", "<C-w>=", desc = "Split current buffer into equally size" }, -- split equally
 		{ "<leader>sx", "<cmd>:close<CR>", desc = "Close current splitted buffer" }, -- close current split
 		{ "<leader>sm", "<cmd>:MaximizerToggle<CR>", desc = "Maximize and toggle current selected split" },
 
+		-- Splitting Buffer for terminal
 		{ "<leader>tb", ":split term://zsh<CR>", desc = "Open up a terminal (ZSH) on horizontal split" },
 		{ "<leader>tv", ":vsplit term://zsh<CR>", desc = "Open up a terminal (ZSH) on vertical split" },
 	},

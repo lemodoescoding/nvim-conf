@@ -16,6 +16,23 @@ return {
 			close_if_last_window = false,
 			popup_border_style = "rounded",
 
+			window = {
+				width = 45,
+				auto_resize = false,
+			},
+
+			buffers = {
+				bind_to_cwd = false,
+				follow_current_file = { enabled = true },
+			},
+			window = {
+				-- don’t treat it like a file buffer
+				mapping_options = {
+					noremap = true,
+					nowait = true,
+				},
+			},
+
 			-- git status
 			enable_git_status = true,
 			git_status = {
@@ -72,6 +89,18 @@ return {
 					hide_dotfiles = false,
 					hide_gitignored = false,
 					hide_hidden = false,
+				},
+				hijack_netrw_behaviour = "open_default",
+			},
+		})
+
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "",
+					[vim.diagnostic.severity.WARN] = "",
+					[vim.diagnostic.severity.INFO] = "",
+					[vim.diagnostic.severity.HINT] = "󰌵",
 				},
 			},
 		})

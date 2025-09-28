@@ -3,9 +3,31 @@ return {
 	config = function()
 		require("transparent").setup({
 			extra_groups = {
+				-- for Telescope
+				"TelescopeNormal", -- telescope main background
+				"TelescopeBorder", -- telescope border
+				"TelescopePromptNormal",
+				"TelescopePromptBorder",
+				"TelescopeResultsNormal",
+				"TelescopeResultsBorder",
+				"TelescopePreviewNormal",
+				"TelescopePreviewBorder",
+				"TelescopeTitle",
+				"TelescopePromptTitle",
+				"TelescopeResultsTitle",
+				"TelescopePreviewTitle",
+
+				-- for Neo-tree
+				"NormalFloat",
 				"NeoTreeNormal",
 				"NeoTreeNormalNC",
-				"NormalFloat",
+				"NeoTreeEndOfBuffer",
+				"NeoTreeFloatBorder",
+				"NeoTreeFloatTitle",
+				"NeoTreeTabActive",
+				"NeoTreeTabInactive",
+				"NeoTreeTabSeparatorActive",
+				"NeoTreeTabSeparatorInactive",
 			},
 		})
 
