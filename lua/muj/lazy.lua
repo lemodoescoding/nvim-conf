@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ import = "muj.plugins" },
+	{ import = "muj.plugins.py" },
 	{ import = "muj.dap" },
 	-- { import = "muj.coc"},
 	{ import = "muj.lsp" },

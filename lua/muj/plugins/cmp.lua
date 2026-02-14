@@ -80,6 +80,8 @@ return {
 			return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 		end
 
+		local compare = cmp.config.compare
+
 		cmp.setup({
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
@@ -148,11 +150,22 @@ return {
 			},
 
 			sources = cmp.config.sources({
-				{ name = "nvim_lsp" },
+				{ name = "jupynium", priority = 1000 }, -- from jupynium
+				{ name = "nvim_lsp", priority = 100 },
 				{ name = "luasnip" }, -- snippets
 				{ name = "buffer" }, -- text within buffer
 				{ name = "path" }, -- file system path
 			}),
+
+			sorting = {
+				priority_weight = 1.0,
+				comparators = {
+					compare.score, -- Jupyter kernel completion shows prior to LSP
+					compare.recently_used,
+					compare.locality,
+					-- ...
+				},
+			},
 
 			confirm_opts = {
 				behavior = cmp.ConfirmBehavior.Replace,

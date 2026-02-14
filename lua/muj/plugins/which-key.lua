@@ -77,11 +77,11 @@ return {
 		{ "<leader>ws", "<cmd>SessionSave<CR>", desc = "Save Current Session" },
 		{ "<leader>wr", "<cmd>Autosession restore<CR>", desc = "Restore Session On CWD" },
 
-		-- Common purpose shortcut
-		{ "<leader>qq", "<cmd>:wqa<CR>", desc = "Quit all and save current buffer" },
-		{ "<leader>qf", "<cmd>:qa!<CR>", desc = "Quit all and don't save" },
-		{ "<leader>qw", "<cmd>:qw<CR>", desc = "Quit and save current buffer" },
-		{ "<leader>wb", "<cmd>:w<CR>", desc = "Save current buffer" },
+		-- -- Common purpose shortcut
+		-- { "<leader>qq", "<cmd>:wqa<CR>", desc = "Quit all and save current buffer" },
+		-- { "<leader>qf", "<cmd>:qa!<CR>", desc = "Quit all and don't save" },
+		-- { "<leader>qw", "<cmd>:qw<CR>", desc = "Quit and save current buffer" },
+		-- { "<leader>wb", "<cmd>:w<CR>", desc = "Save current buffer" },
 
 		-- tab (scope.nvim and bufferline)
 		{ "<leader>to", ":tabnew<CR>", desc = "Open new tab" }, -- new

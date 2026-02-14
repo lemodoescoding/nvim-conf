@@ -20,6 +20,7 @@ return {
 	-- },
 	{
 		"catppuccin/nvim",
+		name = "catpuccin",
 		config = function()
 			local catppuccin = require("catppuccin")
 

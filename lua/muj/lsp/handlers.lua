@@ -1,4 +1,8 @@
 local function lsp_keymaps(bufnr)
+	if type(bufnr) ~= "number" then
+		bufnr = vim.api.nvim_get_current_buf()
+	end
+
 	local opts = { noremap = true, silent = true }
 	local keymap = vim.api.nvim_buf_set_keymap
 	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
@@ -12,8 +16,9 @@ local function lsp_keymaps(bufnr)
 	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 	keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
 	-- keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next = {buffer=0}<cr>", opts)
-	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev = {buffer=0}<cr>", opts)
+	-- FIXED: Correct diagnostic navigation commands
+	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
+	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
 	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -22,6 +27,7 @@ end
 
 return {
 	"neovim/nvim-lspconfig",
+	commit = "0e6b2ed",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
@@ -31,6 +37,8 @@ return {
 	config = function()
 		local lspconfig = require("lspconfig")
 
+		local navic = require("nvim-navic")
+
 		-- reverting this back for now, near future i will update the handlers config and change to the new vim.lsp.config
 		-- and vim.lsp.enable
 
@@ -38,33 +46,18 @@ return {
 
 		local on_attach = function(client, bufnr)
 			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentFormattingProvider = false
+			client.server_capabilities.documentRangeFormattingProvider = false
+
+			if client.server_capabilities.documentSymbolProvider then
+				navic.attach(client, bufnr)
+			end
 
 			lsp_keymaps(bufnr)
 		end
 
 		-- make autocompletion
 
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem = {
-			documentationFormat = { "markdown", "plaintext" },
-			snippetSupport = true,
-			preselectSupport = true,
-			insertReplaceSupport = true,
-			labelDetailsSupport = true,
-			deprecatedSupport = true,
-			commitCharactersSupport = true,
-			tagSupport = { valueSet = { 1 } },
-			resolveSupport = {
-				properties = {
-					"documentation",
-					"detail",
-					"additionalTextEdits",
-				},
-			},
-		}
-
-		capabilities = cmp_nvim_lsp.default_capabilities()
+		local capabilities = cmp_nvim_lsp.default_capabilities()
 
 		local signs = {
 
@@ -189,11 +182,50 @@ return {
 		})
 
 		lspconfig["pyright"].setup({
+			on_attach = on_attach,
 			capabilities = capabilities,
+			settings = {
+				python = {
+					analysis = {
+						diagnosticSeverityOverrides = {
+							reportUnusedExpression = "none",
+						},
+					},
+				},
+			},
 		})
 
-		lspconfig["sqlls"].setup({
+		lspconfig["gopls"].setup({
+			name = "go",
+			cmd = { "gopls" },
+			filetypes = { "go", "gomod", "gowork", "gotmpl" },
+			root_dir = vim.fs.root(0, { "go.work", "go.mod", ".git" }),
 			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				gopls = {
+					gofumpt = false,
+					usePlaceholders = true,
+					staticcheck = true,
+					analyses = {
+						unusedparams = true,
+						unreachable = true,
+					},
+					codelenses = {
+						generate = true,
+						test = true,
+						tidy = true,
+						upgrade_dependency = true,
+						run_govulncheck = false,
+					},
+					hints = {
+						parameterNames = true,
+						constantValues = true,
+						rangeVariableTypes = true,
+						compositeLiteralFields = true,
+					},
+				},
+			},
 		})
 	end,
 }

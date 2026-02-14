@@ -57,48 +57,41 @@ return {
 
 		require("scope").setup()
 
-		local function ensure_scratch()
-			-- Count listed buffers
-			local listed = vim.fn.getbufinfo({ buflisted = 1 })
+		local function safe_ensure_scratch()
+			vim.schedule(function()
+				local listed = vim.fn.getbufinfo({ buflisted = 1 })
 
-			-- If nothing left, or only Neo-tree left, create a scratch
-			if #listed == 0 or (#listed == 1 and listed[1].name:match("neo%-tree")) then
-				vim.cmd("enew")
-				vim.bo.bufhidden = "hide"
-				vim.bo.buftype = "nofile"
-				vim.bo.buflisted = true
-				vim.bo.swapfile = false
-				vim.api.nvim_buf_set_name(0, "Home")
-			end
+				-- Avoid running during runtime checks (like :checkhealth)
+				if vim.v.exiting ~= vim.NIL then
+					return
+				end
+
+				-- If only Neo-tree or no buffers remain
+				if #listed == 0 or (#listed == 1 and listed[1].name:match("neo%-tree")) then
+					-- Create new scratch buffer
+					vim.cmd("enew!")
+					vim.bo.bufhidden = "hide"
+					vim.bo.buftype = "nofile"
+					vim.bo.buflisted = true
+					vim.bo.swapfile = false
+
+					-- Avoid renaming conflicts
+					if vim.fn.bufnr("^Home$", false) == -1 then
+						pcall(vim.api.nvim_buf_set_name, 0, "Home")
+						vim.schedule(function()
+							vim.defer_fn(function()
+								pcall(vim.cmd, "Alpha")
+							end, 0) -- 50ms should be plenty; increase if you still see races
+						end)
+					end
+				end
+			end)
 		end
 
-		vim.api.nvim_create_autocmd({ "BufDelete", "QuitPre" }, {
-			callback = ensure_scratch,
+		vim.api.nvim_create_autocmd({ "BufDelete", "TabClosed" }, {
+			callback = safe_ensure_scratch,
 		})
 
-		-- local function open_alpha_safely()
-		-- 	-- if Alpha command exists, create a valid listed buffer first, then call Alpha
-		-- 	if vim.fn.exists(":Alpha") == 2 then
-		-- 		-- create a listed buffer (so it's counted by getbufinfo)
-		-- 		local buf = vim.api.nvim_create_buf(true, false) -- listed=true, scratch=false
-		--
-		-- 		if buf and vim.api.nvim_buf_is_valid(buf) then
-		-- 			-- set it up as a lightweight nofile buffer
-		-- 			vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-		-- 			vim.api.nvim_buf_set_option(buf, "bufhidden", "hide")
-		-- 			vim.api.nvim_buf_set_option(buf, "swapfile", false)
-		-- 			vim.api.nvim_buf_set_name(buf, "Home")
-		--
-		-- 			-- make it the current buffer so Alpha has a stable buffer to attach to
-		-- 			vim.api.nvim_set_current_buf(buf)
-		--
-		-- 			-- small defer to avoid racing with other autocmds/plugins
-		-- 			vim.defer_fn(function()
-		-- 				pcall(vim.cmd, "Alpha")
-		-- 			end, 50) -- 50ms should be plenty; increase if you still see races
-		-- 			return
-		-- 		end
-		-- 	end
 		--
 		-- 	-- fallback if Alpha not available or buffer creation failed:
 		-- 	vim.cmd("enew")

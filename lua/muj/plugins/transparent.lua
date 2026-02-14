@@ -28,6 +28,12 @@ return {
 				"NeoTreeTabInactive",
 				"NeoTreeTabSeparatorActive",
 				"NeoTreeTabSeparatorInactive",
+
+        "WhichKeyNormal",
+        "WhichKeyBorder",
+        "WhichKeyTitle",
+        "WhichKeySeparator",
+        "WhichKeyValue"
 			},
 		})
 
