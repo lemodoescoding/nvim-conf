@@ -63,6 +63,9 @@ return {
 		lualine.setup({
 			options = {
 				theme = lualine_theme_n,
+				disabled_filetypes = {
+					winbar = { "neo-tree", "alpha" }, -- This kills the winbar for these types
+				},
 			},
 
 			component_separators = { left = "", right = "" },
@@ -114,9 +117,9 @@ return {
 				},
 			},
 			inactive_winbar = {
-				lualine_c = {
-					{ "filename", path = 1 }, -- Shows file path in background windows
-				},
+				-- lualine_c = {
+				-- 	{ "filename", path = 1 }, -- Shows file path in background windows
+				-- },
 			},
 		})
 	end,

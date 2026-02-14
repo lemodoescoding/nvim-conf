@@ -92,10 +92,25 @@ return {
 		-- buffer
 		{ "<leader>bn", ":bnext<CR>", desc = "Prev Buffer" },
 		{ "<leader>bp", ":bprev<CR>", desc = "Next Buffer" },
-		{ "<leader>bd", ":Bdelete! %<CR>", desc = "Close Buffer" },
+		{ "<leader>bd", ":Bdelete<CR>", desc = "Close Buffer" },
 		{ "<leader>bf", ":bfirst<CR>", desc = "Switch to first Buffer" },
 		{ "<leader>bl", ":blast<CR>", desc = "Switch to most-end Buffer" },
-		{ "<leader>bw", ":Bwipeout<CR>", desc = "Close all buffers" },
+		{
+			"<leader>bw",
+			function()
+				local buffers = vim.api.nvim_list_bufs()
+				for _, bufnr in ipairs(buffers) do
+					-- Only delete if the buffer is listed and NOT neo-tree
+					if vim.api.nvim_get_option_value("buflisted", { buf = bufnr }) then
+						local ft = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
+						if ft ~= "neo-tree" then
+							pcall(vim.api.nvim_buf_delete, bufnr, { force = true })
+						end
+					end
+				end
+			end,
+			desc = "Close all files (Keep Neo-tree)",
+		},
 
 		-- Splitting Buffer
 		{ "<leader>sv", "<C-w>v", desc = "Split current buffer vertically" }, -- vertical

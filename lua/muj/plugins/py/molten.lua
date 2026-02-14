@@ -86,7 +86,7 @@ return {
 					vim.keymap.set("n", "<leader>ot", function()
 						open = not open
 						vim.fn.MoltenUpdateOption("auto_open_output", open)
-					end)
+					end, { desc = "Toggle auto_open_output", silent = true })
 
 					-- if we're in a python file, change the configuration a little
 					if vim.bo.filetype == "python" then

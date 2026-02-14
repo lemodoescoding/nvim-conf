@@ -44,6 +44,7 @@ return {
 		-- [[      _\/\\\___\/\\\_\//\\\__/\\\_____\/\\\_/\\______\//\\\\\__________\/\\\_____\/\\\_____________\/\\\_]],
 		-- [[       _\/\\\___\/\\\__\///\\\\\/______\//\\\\\________\//\\\________/\\\\\\\\\\\_\/\\\_____________\/\\\_]],
 		-- [[        _\///____\///_____\/////_________\/////__________\///________\///////////__\///______________\///__]],
+		--
 		startify.section.header.opts = { position = "center" }
 
 		startify.section.top_buttons.val = {
@@ -64,6 +65,16 @@ return {
 		}
 
 		alpha.setup(startify.config)
+
+		vim.api.nvim_create_autocmd("VimResized", {
+			callback = function()
+				if vim.bo.filetype == "alpha" then
+					vim.cmd("AlphaRedraw") -- Some versions of Alpha use this
+					-- Or simply:
+					-- vim.cmd("Alpha")
+				end
+			end,
+		})
 
 		vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
 	end,

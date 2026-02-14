@@ -20,11 +20,11 @@ return {
 					},
 				},
 				keymap = {
-					hover = "H",
-					definition = "gd",
-					rename = "<leader>rn",
-					references = "gr",
-					format = "<leader>gf",
+					-- 	hover = "H",
+					-- 	definition = "qd",
+					-- 	rename = "<leader>rn",
+					-- 	references = "gr",
+					format = "<leader>qf",
 				},
 				codeRunner = {
 					enabled = true,

@@ -4,10 +4,11 @@ local keymap = vim.keymap
 -- basic and important keymaps
 
 keymap.set("i", "jk", "<ESC>")
-keymap.set("n", "<leader>qq", ":wqa<CR>")
-keymap.set("n", "<leader>wb", ":w<CR>")
-keymap.set("n", "<leader>qf", ":qa!<CR>")
-keymap.set("n", "<leader>qw", ":wqa<CR>")
+keymap.set("n", "<ESC>", "<cmd>nohlsearch<CR>")
+-- keymap.set("n", "<leader>qq", ":wqa<CR>")
+-- keymap.set("n", "<leader>wb", ":w<CR>")
+-- keymap.set("n", "<leader>qf", ":qa!<CR>")
+-- keymap.set("n", "<leader>qw", ":wqa<CR>")
 
 -- window splitting
 keymap.set("n", "<leader>sv", "<C-w>v") -- vertical

@@ -38,7 +38,7 @@ return {
 				-- which means that it will open the Selenium browser when you open this file.
 				-- Related command :JupyniumStartAndAttachToServer
 				auto_start_server = {
-					enable = true,
+					enable = false,
 					-- file_pattern = { "*.ju.*" },
 				},
 
@@ -46,7 +46,7 @@ return {
 				-- Without this step, you can't use :JupyniumStartSync
 				-- Related command :JupyniumAttachToServer
 				auto_attach_to_server = {
-					enable = true,
+					enable = false,
 					-- file_pattern = { "*.ju.*", "*.md" },
 				},
 
@@ -62,7 +62,7 @@ return {
 				-- by downloading from the Jupyter Notebook server.
 				-- WARNING: this will overwrite the file without asking
 				-- Related command :JupyniumDownloadIpynb
-				auto_download_ipynb = true,
+				auto_download_ipynb = false,
 
 				-- Automatically close tab that is in sync when you close buffer in vim.
 				auto_close_tab = true,
