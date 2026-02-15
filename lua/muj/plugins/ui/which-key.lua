@@ -60,11 +60,7 @@ return {
 		{ "<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Find Files" },
 		{ "<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "Live Grep" },
 		{ "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help Tags" },
-
-		-- Live-server section
-		{ "<leader>s", "Live-Server H,C,J" },
-		{ "<leader>st", "<cmd>LiveServerStop<CR>", desc = "Stop Live Server" },
-		{ "<leader>ss", "<cmd>LiveServerStart<CR>", desc = "Start Live Server" },
+		{ "<leader>fc", "<cmd>Telescope colorscheme<CR>", desc = "Select Colorscheme" },
 
 		-- Transparent BG
 		{ "<leader>t", "Transparent Bg" },
@@ -118,6 +114,10 @@ return {
 		{ "<leader>se", "<C-w>=", desc = "Split current buffer into equally size" }, -- split equally
 		{ "<leader>sx", "<cmd>:close<CR>", desc = "Close current splitted buffer" }, -- close current split
 		{ "<leader>sm", "<cmd>:MaximizerToggle<CR>", desc = "Maximize and toggle current selected split" },
+
+		-- Live-server section
+		{ "<leader>st", "<cmd>LiveServerStop<CR>", desc = "Stop Live Server" },
+		{ "<leader>ss", "<cmd>LiveServerStart<CR>", desc = "Start Live Server" },
 
 		-- Splitting Buffer for terminal
 		{ "<leader>tb", ":split term://zsh<CR>", desc = "Open up a terminal (ZSH) on horizontal split" },

@@ -48,13 +48,5 @@ return {
 
 		telescope.load_extension("fzf")
 		telescope.load_extension("scope")
-
-		local keymap = vim.keymap
-
-		-- keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
-		-- keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<CR>")
-		-- keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>")
-		-- keymap.set("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>")
-		-- keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<CR>")
 	end,
 }

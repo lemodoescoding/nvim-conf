@@ -11,9 +11,14 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.loader.enable()
+
 require("lazy").setup({
 	{ import = "muj.plugins" },
 	{ import = "muj.plugins.py" },
+	{ import = "muj.plugins.editor" },
+	{ import = "muj.plugins.explorer" },
+	{ import = "muj.plugins.ui" },
 	{ import = "muj.dap" },
 	-- { import = "muj.coc"},
 	{ import = "muj.lsp" },

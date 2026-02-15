@@ -13,10 +13,5 @@ return {
 		})
 
 		require("live_server.util").install()
-
-		local keymap = vim.keymap
-
-		-- keymap.set("n", "<leader>ss", "<cmd>LiveServerStart<CR>")
-		-- keymap.set("n", "<leader>st", "<cmd>LiveServerStop<CR>")
 	end,
 }

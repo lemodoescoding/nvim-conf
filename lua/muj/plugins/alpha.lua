@@ -47,11 +47,17 @@ return {
 		--
 		startify.section.header.opts = { position = "center" }
 
+		startify.section.mru_cwd.val = { { type = "padding", val = 0 } }
+
+		startify.mru_opts.ignore = function(path, ext)
+			return (string.find(path, "COMMIT_EDITMSG"))
+		end
+
 		startify.section.top_buttons.val = {
 			{ type = "padding", val = 2 },
 			startify.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
 			startify.button("f", "󰱼  Find File", "<cmd>Telescope find_files<CR>"),
-			startify.button("r", "󰁯  Restore Session For Current Directory", "<cmd>Autosession restore<CR>"),
+			-- startify.button("r", "󰁯  Restore Session For Current Directory", "<cmd>Autosession restore<CR>"),
 			startify.button("q", "  Quit NVIM", "<cmd>qa<CR>"),
 		}
 
