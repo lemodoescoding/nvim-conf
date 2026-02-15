@@ -98,7 +98,10 @@ return {
 
 				if count == 0 then
 					for _, buf in ipairs(listed) do
-						pcall(vim.api.nvim_buf_delete, buf.bufnr, { force = true })
+						local bt = vim.api.nvim_get_option_value("buftype", { buf = buf.bufnr })
+						if bt ~= "terminal" then
+							pcall(vim.api.nvim_buf_delete, buf.bufnr, { force = true })
+						end
 
 						if count == 0 then
 							break
@@ -123,7 +126,12 @@ return {
 
 		vim.api.nvim_create_autocmd("BufDelete", {
 			group = agrp,
-			callback = function()
+			callback = function(args)
+				local bt = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+
+				if bt == "terminal" then
+					return
+				end
 				vim.defer_fn(ensure_dashboard, 100)
 			end,
 		})
@@ -132,6 +140,16 @@ return {
 			group = agrp,
 			callback = function()
 				ensure_dashboard()
+			end,
+		})
+
+		vim.api.nvim_create_autocmd("TermClose", {
+			group = agrp,
+			callback = function(args)
+				vim.defer_fn(function()
+					pcall(vim.cmd, "close")
+					pcall(vim.api.nvim_buf_delete, args.buf, { force = true })
+				end, 100)
 			end,
 		})
 	end,

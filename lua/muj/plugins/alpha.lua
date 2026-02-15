@@ -1,21 +1,22 @@
 return {
 	"goolord/alpha-nvim",
 	event = "VimEnter",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	lazy = false,
+	dependencies = { "nvim-tree/nvim-web-devicons", "rubiin/fortune.nvim" },
 	config = function()
 		local alpha = require("alpha")
 		local startify = require("alpha.themes.startify")
 
 		startify.section.header.val = {
-			[[____________________________________________/\\\________/\\\__/\\\\\\\\\\\__/\\\\____________/\\\\_]],
-			[[ ___________________________________________\/\\\_______\/\\\_\/////\\\///__\/\\\\\\________/\\\\\\_]],
-			[[  _________________________________/\\\______\//\\\______/\\\______\/\\\_____\/\\\//\\\____/\\\//\\\_]],
-			[[   __/\\/\\\\\\_______/\\\\\_____/\\\\\\\\\\\__\//\\\____/\\\_______\/\\\_____\/\\\\///\\\/\\\/_\/\\\_]],
-			[[    _\/\\\////\\\____/\\\///\\\__\////\\\////____\//\\\__/\\\________\/\\\_____\/\\\__\///\\\/___\/\\\_]],
-			[[     _\/\\\__\//\\\__/\\\__\//\\\____\/\\\_________\//\\\/\\\_________\/\\\_____\/\\\____\///_____\/\\\_]],
-			[[      _\/\\\___\/\\\_\//\\\__/\\\_____\/\\\_/\\______\//\\\\\__________\/\\\_____\/\\\_____________\/\\\_]],
-			[[       _\/\\\___\/\\\__\///\\\\\/______\//\\\\\________\//\\\________/\\\\\\\\\\\_\/\\\_____________\/\\\_]],
-			[[        _\///____\///_____\/////_________\/////__________\///________\///////////__\///______________\///__]],
+			[[ _____________________________________________________________        ]],
+			[[  _____________________________________________________________       ]],
+			[[   ____________________________________/\\\_____________________      ]],
+			[[    ______________________/\\\____/\\\_\///_____/\\\\\__/\\\\\___     ]],
+			[[     _____________________\//\\\__/\\\___/\\\__/\\\///\\\\\///\\\_    ]],
+			[[      ______________________\//\\\/\\\___\/\\\_\/\\\_\//\\\__\/\\\_   ]],
+			[[       _______________________\//\\\\\____\/\\\_\/\\\__\/\\\__\/\\\_  ]],
+			[[        ________________________\//\\\_____\/\\\_\/\\\__\/\\\__\/\\\_ ]],
+			[[         _________________________\///______\///__\///___\///___\///__]],
 		}
 
 		-- [[_________________oo____oo____oo_oooo_ooo_____ooo_]],
@@ -44,8 +45,18 @@ return {
 		-- [[      _\/\\\___\/\\\_\//\\\__/\\\_____\/\\\_/\\______\//\\\\\__________\/\\\_____\/\\\_____________\/\\\_]],
 		-- [[       _\/\\\___\/\\\__\///\\\\\/______\//\\\\\________\//\\\________/\\\\\\\\\\\_\/\\\_____________\/\\\_]],
 		-- [[        _\///____\///_____\/////_________\/////__________\///________\///////////__\///______________\///__]],
-		--
-		startify.section.header.opts = { position = "center" }
+
+		-- [[ _____________________________________________________________        ]],
+		-- [[  _____________________________________________________________       ]],
+		-- [[   ____________________________________/\\\_____________________      ]],
+		-- [[    ______________________/\\\____/\\\_\///_____/\\\\\__/\\\\\___     ]],
+		-- [[     _____________________\//\\\__/\\\___/\\\__/\\\///\\\\\///\\\_    ]],
+		-- [[      ______________________\//\\\/\\\___\/\\\_\/\\\_\//\\\__\/\\\_   ]],
+		-- [[       _______________________\//\\\\\____\/\\\_\/\\\__\/\\\__\/\\\_  ]],
+		-- [[        ________________________\//\\\_____\/\\\_\/\\\__\/\\\__\/\\\_ ]],
+		-- [[         _________________________\///______\///__\///___\///___\///__]],
+
+		startify.section.header.opts = { position = "left" }
 
 		startify.section.mru_cwd.val = { { type = "padding", val = 0 } }
 
@@ -64,10 +75,16 @@ return {
 		startify.section.bottom_buttons.val = {}
 
 		startify.section.footer.val = {
-			{ type = "padding", val = 3 },
-			{ type = "text", val = "github.com/lemodoescoding", opts = { position = "center" } },
-			{ type = "text", val = "NVIM v" .. tostring(vim.version()), opts = { position = "center" } },
-			{ type = "text", val = "C28 - TC24", opts = { position = "center" } },
+			{ type = "padding", val = 1 },
+			{ type = "text", val = "github.com/lemodoescoding", opts = { position = "left" } },
+			{ type = "text", val = "notVIM v" .. tostring(vim.version()), opts = { position = "left" } },
+			{
+				type = "text",
+				val = function()
+					return require("fortune").get_fortune()
+				end,
+				opts = { position = "left" },
+			},
 		}
 
 		alpha.setup(startify.config)
@@ -78,6 +95,39 @@ return {
 					vim.cmd("AlphaRedraw") -- Some versions of Alpha use this
 					-- Or simply:
 					-- vim.cmd("Alpha")
+				end
+			end,
+		})
+
+		vim.api.nvim_create_autocmd("BufEnter", {
+			pattern = "*",
+			callback = function()
+				if vim.bo.filetype == "alpha" then
+					vim.cmd("AlphaRedraw")
+				end
+			end,
+		})
+
+		vim.api.nvim_set_hl(0, "AlphaLogoLetters", { fg = "#F0C674", bold = true }) -- Gold/Yellow
+
+		local alpha_hl_grp = vim.api.nvim_create_augroup("AlphaHighlights", { clear = true })
+
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "alpha",
+			group = alpha_hl_grp,
+			callback = function()
+				-- Highlight slashes and backslashes in one color
+				vim.fn.clearmatches()
+				vim.fn.matchadd("AlphaLogoLetters", [[\/\\\+]])
+			end,
+		})
+
+		vim.api.nvim_create_autocmd("BufLeave", {
+			pattern = "*",
+			group = alpha_hl_grp,
+			callback = function()
+				if vim.bo.filetype == "alpha" then
+					vim.fn.clearmatches()
 				end
 			end,
 		})

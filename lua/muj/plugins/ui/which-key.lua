@@ -88,7 +88,7 @@ return {
 		-- buffer
 		{ "<leader>bn", ":bnext<CR>", desc = "Prev Buffer" },
 		{ "<leader>bp", ":bprev<CR>", desc = "Next Buffer" },
-		{ "<leader>bd", ":Bdelete<CR>", desc = "Close Buffer" },
+		{ "<leader>bd", ":Bdelete!<CR>", desc = "Close Buffer" },
 		{ "<leader>bf", ":bfirst<CR>", desc = "Switch to first Buffer" },
 		{ "<leader>bl", ":blast<CR>", desc = "Switch to most-end Buffer" },
 		{
