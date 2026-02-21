@@ -20,7 +20,6 @@ for _, type in ipairs(adapters) do
 		port = "${port}",
 		executable = {
 			command = "node",
-			-- 💀 Make sure to update this path to point to your installation
 			args = {
 				-- download the fucking dap from microsoft/vscode-js-debug directly
 				-- choose the version 1.77++ and extract the tar file and place it anywhere on the system

@@ -58,7 +58,7 @@ return {
 
 		startify.section.header.opts = { position = "left" }
 
-		startify.section.mru_cwd.val = { { type = "padding", val = 0 } }
+		startify.section.mru.val = { { type = "padding", val = 0 } }
 
 		startify.mru_opts.ignore = function(path, ext)
 			return (string.find(path, "COMMIT_EDITMSG"))
@@ -74,6 +74,8 @@ return {
 
 		startify.section.bottom_buttons.val = {}
 
+		vim.api.nvim_set_hl(0, "AlphaFortune", { fg = "#CBCBCB", bold = true, italic = true })
+
 		startify.section.footer.val = {
 			{ type = "padding", val = 1 },
 			{ type = "text", val = "github.com/lemodoescoding", opts = { position = "left" } },
@@ -83,7 +85,7 @@ return {
 				val = function()
 					return require("fortune").get_fortune()
 				end,
-				opts = { position = "left" },
+				opts = { position = "left", hl = "AlphaFortune" },
 			},
 		}
 
@@ -108,7 +110,11 @@ return {
 			end,
 		})
 
-		vim.api.nvim_set_hl(0, "AlphaLogoLetters", { fg = "#F0C674", bold = true }) -- Gold/Yellow
+		-- #FFDF00, #F5BF03, #FFC30B, #FFDA03, #EDC001
+		-- #CC0000, #5A0000, #5E1219
+		-- #21476F, #102438, #29528B, #0852A3
+		-- #025043, #008080, #0F5E62
+		vim.api.nvim_set_hl(0, "AlphaLogoLetters", { fg = "#FFD700", bold = true }) -- Gold/Yellow
 
 		local alpha_hl_grp = vim.api.nvim_create_augroup("AlphaHighlights", { clear = true })
 
@@ -129,6 +135,12 @@ return {
 				if vim.bo.filetype == "alpha" then
 					vim.fn.clearmatches()
 				end
+			end,
+		})
+
+		vim.api.nvim_create_autocmd("ColorScheme", {
+			callback = function()
+				vim.api.nvim_set_hl(0, "AlphaLogoLetters", { fg = "#FFD700", bold = true })
 			end,
 		})
 

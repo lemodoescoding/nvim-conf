@@ -29,11 +29,11 @@ return {
 				"NeoTreeTabSeparatorActive",
 				"NeoTreeTabSeparatorInactive",
 
-        "WhichKeyNormal",
-        "WhichKeyBorder",
-        "WhichKeyTitle",
-        "WhichKeySeparator",
-        "WhichKeyValue"
+				"WhichKeyNormal",
+				"WhichKeyBorder",
+				"WhichKeyTitle",
+				"WhichKeySeparator",
+				"WhichKeyValue",
 			},
 		})
 

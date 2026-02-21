@@ -13,6 +13,7 @@ local servers = {
 	"clangd",
 	"prismals",
 	"pyright",
+    "gopls",
 }
 
 local settings = {
