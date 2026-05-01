@@ -5,7 +5,6 @@ return {
 		version = "^1.0.0",
 		dependencies = { "3rd/image.nvim" },
 		build = ":UpdateRemotePlugins",
-		event = "VeryLazy",
 		ft = { "python", "norg", "markdown", "quarto" },
 		config = function()
 			vim.g.molten_image_provider = "image.nvim"
@@ -108,13 +107,15 @@ return {
 						kernel_name = nil
 						local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
 						if venv ~= nil then
-							kernel_name = string.match(venv, "/.+/(.+)")
+							kernel_name = string.match(venv, "/([^/]+)$")
 						end
 					end
 					if kernel_name ~= nil and vim.tbl_contains(kernels, kernel_name) then
 						vim.cmd(("MoltenInit %s"):format(kernel_name))
 					end
-					vim.cmd("MoltenImportOutput")
+					if require("molten.status").initialized() == "Molten" then
+						vim.cmd("MoltenImportOutput")
+					end
 				end)
 			end
 
@@ -131,6 +132,17 @@ return {
 					if vim.api.nvim_get_vvar("vim_did_enter") ~= 1 then
 						imb(e)
 					end
+				end,
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "python", "markdown", "quarto" },
+				callback = function()
+					vim.schedule(function()
+						if require("molten.status").initialized() ~= "Molten" then
+							vim.cmd("MoltenInit")
+						end
+					end)
 				end,
 			})
 

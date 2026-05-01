@@ -27,7 +27,7 @@ return {
 					format = "<leader>qf",
 				},
 				codeRunner = {
-					enabled = true,
+					enabled = false,
 					default_method = "molten", -- "molten", "slime", "iron" or <function>
 					ft_runners = {}, -- filetype to runner, ie. `{ python = "molten" }`.
 					-- Takes precedence over `default_method`
