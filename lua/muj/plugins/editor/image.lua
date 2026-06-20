@@ -16,7 +16,7 @@ return {
 					only_render_image_at_cursor = true,
 					only_render_image_at_cursor_mode = "inline", -- or "inline"
 					floating_windows = false, -- if true, images will be rendered in floating markdown windows
-					filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+					filetypes = { "markdown" }, -- markdown extensions (ie. quarto) can go here
 				},
 				neorg = {
 					enabled = false,

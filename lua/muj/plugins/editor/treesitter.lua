@@ -22,6 +22,7 @@ return {
 				"lua",
 				"go",
 				"markdown",
+                "markdown_inline",
 				"php",
 				"python",
 				"prisma",

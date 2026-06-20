@@ -83,7 +83,22 @@ return {
 			},
 
 			-- show hidden files
+            -- replace the image opener with existing image.nvim
 			filesystem = {
+                commands = {
+                    open_image_external = function (state)
+                        local node = state.tree:get_node()
+                        if node and node.path then
+                            vim.fn.jobstart({"xdg-open", node.path}, {detach = true})
+                        end
+                    end,
+                },
+                window = {
+                    mappings = {
+                        ["<CR>"] = "open",
+                        ["go"] = "open_image_external"
+                    }
+                },
 				filtered_items = {
 					visible = true,
 					hide_dotfiles = false,

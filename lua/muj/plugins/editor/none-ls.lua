@@ -10,56 +10,58 @@ return {
 		local event = "BufWritePre"
 		local async = event == "BufWritePost"
 
+        local prettier_with_tabs = function(opts)
+            return null_ls.builtins.formatting.prettier.with(
+                vim.tbl_extend("force", {
+                    extra_args = { "--tab-width", "4", "--use-tabs" },
+                }, opts or {})
+        end
+
 		null_ls.setup({
 			-- root_dir = require("null-ls.utils").root_pattern(".git", "go.mod", "package.json", "."),
 			sources = {
 				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "php" },
-					extra_args = { "--parser", "php" },
-					extra_filetypes = { "blade" }, -- for Laravel Blade templates
-				}),
 
-				-- HTML
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "html", "htm" },
-				}),
+				-- PHP + Blade
+                prettier_with_tabs({
+                    filetypes = { "php" },
+                    extra_args = { "--tab-width", "4", "--use-tabs", "--parser", "php" },
+                    extra_filetypes = { "blade" },
+                }),
 
-				-- CSS, SCSS, Less
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "css", "scss", "less" },
-				}),
+                -- HTML
+                    prettier_with_tabs({ filetypes = { "html", "htm" } }),
 
-				-- JavaScript, TypeScript, JSX, TSX
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = {
-						"javascript",
-						"javascriptreact",
-						"typescript",
-						"typescriptreact",
-						"jsx",
-						"tsx",
-					},
-				}),
+                -- CSS, SCSS, Less
+                prettier_with_tabs({ filetypes = { "css", "scss", "less" } }),
 
-				-- JSON
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "json", "jsonc" },
-				}),
+                -- JavaScript, TypeScript, JSX, TSX
+                prettier_with_tabs({
+                    filetypes = {
+                        "javascript",
+                        "javascriptreact",
+                        "typescript",
+                        "typescriptreact",
+                        "jsx",
+                        "tsx",
+                    },
+                }),
 
-				-- Markdown
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "markdown", "md" },
-				}),
+                -- JSON
+                prettier_with_tabs({ filetypes = { "json", "jsonc" } }),
 
-				-- YAML
-				null_ls.builtins.formatting.prettier.with({
-					filetypes = { "yaml", "yml" },
-				}),
+                -- Markdown
+                prettier_with_tabs({ filetypes = { "markdown", "md" } }),
+
+                -- YAML
+                prettier_with_tabs({ filetypes = { "yaml", "yml" } }),
 
 				null_ls.builtins.formatting.clang_format.with({
 					extra_args = {
-						"-style={BasedOnStyle: LLVM, SortIncludes: false}", -- changes the formatting style to LLVM (there is still many other)
+                        extra_args = {
+                            "-style={BasedOnStyle: LLVM, IndentWidth: 4, UseTab: Always, TabWidth: 4, SortIncludes: false}",
+                        },
+						-- "-style={BasedOnStyle: LLVM, SortIncludes: false}", -- changes the formatting style to LLVM (there is still many other)
 						-- '"{UseTab: Always, IndentWith: 4, TabWidth: 4}"',
 					},
 				}),
@@ -76,6 +78,9 @@ return {
 				-- 	-- GCI requires sections to be defined to work effectively
 				-- 	extra_args = { "--sections", "standard,default" },
 				-- }),
+
+                -- NGINX
+                null_ls.builtins.formatting.nginx,
 			},
 
 			-- make auto-format on save (async)
@@ -97,14 +102,12 @@ return {
 					-- 			timeout_ms = 3000,
 					-- 		})
 					-- 	end,
-					-- 	-- callback = function()
-					-- 	-- 	vim.lsp.buf.format({ async = false })
-					-- 	-- end,
+						-- callback = function()
+						-- 	vim.lsp.buf.format({ async = false })
+						-- end,
 					-- })
 				end
 			end,
 		})
-		-- format shortcut keymap
-		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, { desc = "Force format", silent = true })
-	end,
+    end
 }

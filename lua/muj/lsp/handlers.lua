@@ -232,5 +232,10 @@ on_attach(client, bufnr)
 			capabilities = capabilities,
 			on_attach = on_attach,
         })
+
+        lspconfig["nginx"].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+        })
 	end,
 }
