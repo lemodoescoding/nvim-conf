@@ -62,6 +62,10 @@ return {
 		{ "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Help Tags" },
 		{ "<leader>fc", "<cmd>Telescope colorscheme<CR>", desc = "Select Colorscheme" },
 
+		-- LSP - None-LS, DAP
+		{ "<leader>g", group = "LSP" },
+		{ "<leader>gf", desc = "Force Format" },
+
 		-- Transparent BG
 		{ "<leader>t", "Transparent Bg" },
 		{ "<leader>tt", "<cmd>TransparentToggle<CR>", desc = "Toggle Transparent Bg" },
