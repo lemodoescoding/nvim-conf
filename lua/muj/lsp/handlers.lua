@@ -119,7 +119,6 @@ return {
 			on_attach = on_attach,
 			filetypes = {
 				"html",
-				"javascript",
 				"typescriptreact",
 				"javascriptreact",
 				"css",

@@ -40,3 +40,5 @@ opt.splitbelow = true
 opt.iskeyword:append({"/", "-"})
 
 vim.g.python3_host_prog = vim.fn.expand("~/.virtualenvs/neovim/bin/python3")
+
+vim.lsp.set_log_level("ERROR")  -- even stricter than WARN, only logs errors
