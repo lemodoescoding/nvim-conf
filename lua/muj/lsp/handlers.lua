@@ -1,240 +1,259 @@
-local function lsp_keymaps(bufnr)
-	if type(bufnr) ~= "number" then
-		bufnr = vim.api.nvim_get_current_buf()
+local M = {}
+
+M.setup = function()
+	-- Diagnostics
+	vim.diagnostic.config({
+		signs = {
+			text = {
+				[vim.diagnostic.severity.ERROR] = "",
+				[vim.diagnostic.severity.WARN] = "",
+				[vim.diagnostic.severity.HINT] = "",
+				[vim.diagnostic.severity.INFO] = "",
+			},
+		},
+		virtual_text = true,
+		update_in_insert = false,
+		underline = true,
+		severity_sort = true,
+		float = {
+			focusable = false,
+			border = "rounded",
+			source = true,
+		},
+	})
+
+	-- Capabilities
+	local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+	-- on_attach
+	local on_attach = function(client, bufnr)
+		-- let none-ls handle formatting
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+
+		if client.server_capabilities.documentSymbolProvider then
+			require("nvim-navic").attach(client, bufnr)
+		end
+
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set(
+			"n",
+			"gD",
+			vim.lsp.buf.declaration,
+			vim.tbl_extend("force", opts, { desc = "Go to Declaration" })
+		)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to Definition" }))
+		vim.keymap.set("n", "gK", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Docs" }))
+		vim.keymap.set(
+			"n",
+			"gi",
+			vim.lsp.buf.implementation,
+			vim.tbl_extend("force", opts, { desc = "Go to Implementation" })
+		)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References" }))
+		vim.keymap.set(
+			"n",
+			"gl",
+			vim.diagnostic.open_float,
+			vim.tbl_extend("force", opts, { desc = "Line Diagnostics" })
+		)
+		vim.keymap.set(
+			"n",
+			"gt",
+			vim.lsp.buf.type_definition,
+			vim.tbl_extend("force", opts, { desc = "Type Definition" })
+		)
+		vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", vim.tbl_extend("force", opts, { desc = "LSP Info" }))
+		vim.keymap.set(
+			"n",
+			"<leader>lj",
+			vim.diagnostic.goto_next,
+			vim.tbl_extend("force", opts, { desc = "Next Diagnostic" })
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>lk",
+			vim.diagnostic.goto_prev,
+			vim.tbl_extend("force", opts, { desc = "Prev Diagnostic" })
+		)
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
+		vim.keymap.set(
+			"n",
+			"<leader>ls",
+			vim.lsp.buf.signature_help,
+			vim.tbl_extend("force", opts, { desc = "Signature Help" })
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>lq",
+			vim.diagnostic.setloclist,
+			vim.tbl_extend("force", opts, { desc = "Quickfix Diagnostics" })
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>rs",
+			"<cmd>LspRestart<CR>",
+			vim.tbl_extend("force", opts, { desc = "Restart LSP" })
+		)
 	end
 
-	local opts = { noremap = true, silent = true }
-	local keymap = vim.api.nvim_buf_set_keymap
-	keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	keymap(bufnr, "n", "gK", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	keymap(bufnr, "n", "gt", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-	keymap(bufnr, "n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
-	keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-	keymap(bufnr, "n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-	-- keymap(bufnr, { "n", "v" }, "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-	-- FIXED: Correct diagnostic navigation commands
-	keymap(bufnr, "n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)
-	keymap(bufnr, "n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
-	keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-	keymap(bufnr, "n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	keymap(bufnr, "n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	keymap(bufnr, "n", "<leader>rs", "<cmd>LspRestart<CR>", opts)
+	-- Default config for ALL servers
+	vim.lsp.config("*", {
+		capabilities = capabilities,
+		on_attach = on_attach,
+	})
+
+	-- Per-server overrides
+
+	vim.lsp.config("clangd", {
+		on_attach = function(client, bufnr)
+			client.server_capabilities.signatureHelpProvider = false
+			on_attach(client, bufnr)
+		end,
+	})
+
+	vim.lsp.config("prismals", {
+		on_attach = function(client, bufnr)
+			client.server_capabilities.signatureHelpProvider = false
+			on_attach(client, bufnr)
+		end,
+	})
+
+	vim.lsp.config("intelephense", {
+		root_dir = function()
+			return vim.uv.cwd()
+		end,
+	})
+
+	vim.lsp.config("emmet_ls", {
+		filetypes = {
+			"html",
+			"htm",
+			"css",
+			"scss",
+			"less",
+			"sass",
+			"javascriptreact",
+			"typescriptreact",
+			"svelte",
+		},
+	})
+
+	vim.lsp.config("lua_ls", {
+		settings = {
+			Lua = {
+				diagnostics = {
+					globals = { "vim" },
+				},
+				workspace = {
+					library = {
+						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+						[vim.fn.stdpath("config") .. "/lua"] = true,
+					},
+				},
+			},
+		},
+	})
+
+	vim.lsp.config("svelte", {
+		on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			vim.api.nvim_create_autocmd("BufWritePost", {
+				pattern = { "*.js", "*.ts" },
+				callback = function(ctx)
+					if client.name == "svelte" then
+						client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
+					end
+				end,
+			})
+		end,
+	})
+
+	vim.lsp.config("pyright", {
+		settings = {
+			python = {
+				analysis = {
+					diagnosticMode = "openFilesOnly",
+					diagnosticSeverityOverrides = {
+						reportUnusedExpression = "none",
+					},
+				},
+			},
+		},
+	})
+
+	vim.lsp.config("gopls", {
+		cmd = { "gopls" },
+		filetypes = { "go", "gomod", "gowork", "gotmpl" },
+		root_markers = { "go.work", "go.mod" },
+		root_dir = vim.fs.root(0, { "go.work", "go.mod" }), -- remove .git
+		settings = {
+			gopls = {
+				gofumpt = false,
+				usePlaceholders = true,
+				staticcheck = true,
+				analyses = {
+					unusedparams = true,
+					unreachable = true,
+				},
+				codelenses = {
+					generate = true,
+					test = true,
+					tidy = true,
+					upgrade_dependency = true,
+					run_govulncheck = false,
+				},
+				hints = {
+					parameterNames = true,
+					constantValues = true,
+					rangeVariableTypes = true,
+					compositeLiteralFields = true,
+				},
+			},
+		},
+	})
+
+	vim.lsp.config("vtsls", {
+		root_dir = vim.fs.root(0, { "jsconfig.json", "tsconfig.json", "package.json", ".git" }),
+		settings = {
+			javascript = {
+				preferGoToSourceDefinition = true,
+				validate = { enable = false },
+				suggestionActions = { enabled = false },
+				format = { enable = false },
+			},
+			typescript = { preferGoToSourceDefinition = true },
+			vtsls = {
+				autoUseWorkspaceTsdk = true,
+				-- experimental = {
+				-- 	completion = { enableServerSideFuzzyMatch = true },
+				-- },
+				experimental = {
+					maxInlayHintLength = 0, -- disable inlay hints, reduces work
+				},
+			},
+		},
+	})
+
+	-- Enable servers
+	vim.lsp.enable({
+		"vtsls",
+		"emmet_ls",
+		"lua_ls",
+		"html",
+		"cssls",
+		"bashls",
+		"jsonls",
+		"yamlls",
+		"svelte",
+		"intelephense",
+		"clangd",
+		"prismals",
+		"pyright",
+		"gopls",
+		"jdtls",
+		"nginx_language_server",
+	})
 end
 
-return {
-	"neovim/nvim-lspconfig",
-	commit = "0e6b2ed",
-	event = { "BufReadPre", "BufNewFile" },
-	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
-		{ "antosha417/nvim-lsp-file-operations", config = true },
-	},
-
-	config = function()
-		local lspconfig = require("lspconfig")
-
-		local navic = require("nvim-navic")
-
-		-- reverting this back for now, near future i will update the handlers config and change to the new vim.lsp.config
-		-- and vim.lsp.enable
-
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-		local on_attach = function(client, bufnr)
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-
-			if client.server_capabilities.documentSymbolProvider then
-				navic.attach(client, bufnr)
-			end
-
-			lsp_keymaps(bufnr)
-		end
-
-		-- make autocompletion
-
-		local capabilities = cmp_nvim_lsp.default_capabilities()
-
-		local signs = {
-
-			{ name = "DiagnosticSignError", text = "" },
-			{ name = "DiagnosticSignWarn", text = "" },
-			{ name = "DiagnosticSignHint", text = "" },
-			{ name = "DiagnosticSignInfo", text = "" },
-		}
-
-		for _, sign in ipairs(signs) do
-			vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-		end
-
-		-- lsp language configuration --
-
-		lspconfig["clangd"].setup({
-			on_attach = function(client, bufnr)
-				client.server_capabilities.signatureHelpProvider = false
-				on_attach(client, bufnr)
-			end,
-
-			capabilities = capabilities,
-		})
-
-		lspconfig["prismals"].setup({
-			on_attach = function(client, bufnr)
-				client.server_capabilities.signatureHelpProvider = false
-				on_attach(client, bufnr)
-			end,
-
-			capabilities = capabilities,
-		})
-
-		lspconfig["html"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["ts_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["cssls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["intelephense"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			root_dir = function()
-				return vim.loop.cwd()
-			end,
-		})
-
-		lspconfig["emmet_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = {
-				"html",
-				"typescriptreact",
-				"javascriptreact",
-				"css",
-				"sass",
-				"scss",
-				"less",
-				"svelte",
-			},
-		})
-
-		lspconfig["bashls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["yamlls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["jsonls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["lua_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = { -- custom settings for lua
-				Lua = {
-					-- make the language server recognize "vim" global
-					diagnostics = {
-						globals = { "vim" },
-					},
-					workspace = {
-						-- make language server aware of runtime files
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.stdpath("config") .. "/lua"] = true,
-						},
-					},
-				},
-			},
-		})
-
-		lspconfig["svelte"].setup({
-			capabilities = capabilities,
-			on_attach = function(client, bufnr)
-on_attach(client, bufnr)
-
-				vim.api.nvim_create_autocmd("BufWritePost", {
-					pattern = { "*.js", "*.ts" },
-					callback = function(ctx)
-						if client.name == "svelte" then
-							client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.file })
-						end
-					end,
-				})
-			end,
-		})
-
-		lspconfig["pyright"].setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = {
-				python = {
-					analysis = {
-						diagnosticSeverityOverrides = {
-							reportUnusedExpression = "none",
-						},
-					},
-				},
-			},
-		})
-
-		lspconfig["gopls"].setup({
-			name = "go",
-			cmd = { "gopls" },
-			filetypes = { "go", "gomod", "gowork", "gotmpl" },
-			root_dir = vim.fs.root(0, { "go.work", "go.mod", ".git" }),
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = {
-				gopls = {
-					gofumpt = false,
-					usePlaceholders = true,
-					staticcheck = true,
-					analyses = {
-						unusedparams = true,
-						unreachable = true,
-					},
-					codelenses = {
-						generate = true,
-						test = true,
-						tidy = true,
-						upgrade_dependency = true,
-						run_govulncheck = false,
-					},
-					hints = {
-						parameterNames = true,
-						constantValues = true,
-						rangeVariableTypes = true,
-						compositeLiteralFields = true,
-					},
-				},
-			},
-		})
-
-        lspconfig["jdtls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-        })
-
-        lspconfig["nginx"].setup({
-            capabilities = capabilities,
-            on_attach = on_attach,
-        })
-	end,
-}
+return M

@@ -83,6 +83,12 @@ return {
 		local compare = cmp.config.compare
 
 		cmp.setup({
+			performance = {
+				debounce = 300,
+				throttle = 100,
+				fetching_timeout = 600,
+				max_view_entries = 15,
+			},
 			completion = {
 				completeopt = "menu,menuone,preview,noselect",
 			},
@@ -150,19 +156,35 @@ return {
 			},
 
 			sources = cmp.config.sources({
-				{ name = "jupynium", priority = 1000 }, -- from jupynium
-				{ name = "nvim_lsp", priority = 100 },
-				{ name = "luasnip" }, -- snippets
-				{ name = "buffer" }, -- text within buffer
-				{ name = "path" }, -- file system path
+				-- { name = "jupynium", priority = 1000 }, -- from jupynium
+				{ name = "nvim_lsp", priority = 1000 },
+				{ name = "luasnip", priority = 750, max_item_count = 5 }, -- snippets
+				{
+					name = "buffer",
+                    priority = 100,
+                    max_item_count = 5,
+					option = {
+						get_bufnrs = function()
+							return { vim.api.nvim_get_current_buf() }
+						end,
+						max_indexed_line_length = 100,
+					},
+				}, -- text within buffer
+				{ name = "path", priority = 500}, -- file system path
 			}),
 
 			sorting = {
-				priority_weight = 1.0,
+				priority_weight = 2.0,
 				comparators = {
-					compare.score, -- Jupyter kernel completion shows prior to LSP
+					compare.offset,
+					compare.exact, -- exact matches first
+					compare.score,
 					compare.recently_used,
+					compare.kind, -- LSP kinds (Function, Method etc.) ranked higher
 					compare.locality,
+					compare.sort_text,
+					compare.length,
+					compare.order,
 					-- ...
 				},
 			},
